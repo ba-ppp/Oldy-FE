@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export type CodeState = {
+export type CodeReducer = {
   codeOTP: string,
   token: string
 }
@@ -10,12 +10,12 @@ const codeSlice = createSlice({
   initialState: {
     codeOTP: "",
     token: "",
-  } as CodeState,
+  } as CodeReducer,
   reducers: {
-    addcode: (state: CodeState, action): void => {
+    addcode: (state: CodeReducer, action): void => {
       state.codeOTP = action.payload;
     },
-    setToken: (state: CodeState, action): void => {
+    setToken: (state: CodeReducer, action): void => {
       state.token = action.payload;
     },
   },

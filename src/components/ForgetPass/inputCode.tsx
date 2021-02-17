@@ -7,14 +7,14 @@ import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import cls from './_forget.module.scss';
 import { reducer } from 'app/reducers'
-import { CodeState } from 'app/slices/codeSlice'
+import { CodeReducer } from 'app/slices/codeSlice'
 
 
 function InputCode() {
     const [form] = Form.useForm();
     const [isSuccess, setisSuccess] = useState(false);
     // get code from code's reducer
-    const codeState = useSelector((state: CodeState) => state);
+    const codeState = useSelector((state: CodeReducer) => state);
     const code = codeState.codeOTP;
     const token = codeState.token;
     const onFinish = (value: any) => {

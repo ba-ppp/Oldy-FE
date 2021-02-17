@@ -1,33 +1,25 @@
 import Environment from "api/env";
+import axios from "axios";
 
 type props = {
     email: string
 }
 
-const forgot = ( { email } : props) => {
+export type response = {
+  code: string,
+  token: string
+}
 
+
+const forgot = ( { email } : props): Promise<response> => {
   const data = {
     email: email
   };
   const url = Environment.getForgotEndPoint();
-  return new Promise((resolve, reject) => {
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(JSON.stringify(response));
-        if (response.errorCode === 0) {
-          // SUCCESS
-          resolve(response.data);
-        } else {
-          // FAIL
-          reject(response);
-        }
+    return new Promise((resolve, reject) => {
+    axios.post(url, data)
+      .then((response: any) => {
+        resolve(response)
       })
       .catch((e) => {
         console.error(`login fail: ${e}`);

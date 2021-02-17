@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { Button, Form, Input } from 'antd';
+import { forgotPassword } from 'api/auth';
 import { addcode, setToken } from 'app/slices/codeSlice';
 import logo from 'assets/images/logo/logo_192x192_w.jpg';
 import axios from 'axios';
@@ -8,11 +9,11 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import cls from './_forget.module.scss';
+import { response } from 'api/auth/forgotPass'
 
-
-Forget.propTypes = {
-    
-};
+type State = {
+    email: string
+}
 
 
 function Forget() {
@@ -20,23 +21,23 @@ function Forget() {
     const [isPost, setisPost] = useState(false);
     const dispatch = useDispatch();
 
-    // const onFinish = (value: any) => {
-    //     axios
-    //         .post(process.env.REACT_APP_API_FORGET_PASS, value)
-    //         .then((res) => {
-    //             //create action
-    //             const actionAddCode = addcode(res.data.code);
-    //             const actionSetToken = setToken(res.data.token);
-    //             // dispatch
-    //             dispatch(actionAddCode)
-    //             dispatch(actionSetToken)
-    //             //redirect
-    //             setisPost(true)
-    //         })
-    //         .catch((err) => {
-    //             console.log(err)
-    //         })
-// }
+    const onFinish = async (value: State) => {
+        const email = value.email;
+        forgotPassword({ email })
+            .then((res: response) => {
+                //create action
+                const actionAddCode = addcode(res.code);
+                const actionSetToken = setToken(res.token);
+                // dispatch
+                dispatch(actionAddCode)
+                dispatch(actionSetToken)
+                //redirect
+                setisPost(true)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
     return (
         <div className={cls.main}>
             <img alt="logo" className={cls.img_logo} src={logo} />
@@ -45,14 +46,13 @@ function Forget() {
                 <Form
                     form={form}
                     name="register"
-                    // onFinish={onFinish}
+                    onFinish={onFinish}
                     scrollToFirstError
-
                 >
                     <Form.Item
                         name="account"
                     >
-                            <Input placeholder="Email, tên người dùng"/>
+                        <Input placeholder="Email, tên người dùng"/>
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary"
