@@ -1,0 +1,50 @@
+@import "../constants/scss/constant";
+
+.login {
+  padding-top: 5%;
+}
+body {
+  background-color: $background_color;
+  @media screen and (max-width: 1024px) {
+    background-color: $background_form;
+  }
+}
+
+.btn {
+  margin: auto;
+  display: block;
+}
+.line {
+  display: flex;
+  justify-content: center;
+}
+
+.MainBox {
+  width: 30%;
+  margin: auto;
+  border: 1px solid;
+  border-color: $solid_form;
+  background-color: $background_form;
+  padding: 20px;
+  .input {
+    display: block;
+    width: 80%;
+    margin: auto;
+    margin-bottom: 10px;
+  }
+  .btn {
+    display: block;
+    width: 80%;
+    margin: auto;
+  }
+  @media screen and (max-width: 1024px) {
+    width: 60%;
+    border: none;
+    margin-top: 0px;
+  }
+  @media screen and (max-width: 719px) {
+    width: 100%;
+    border: none;
+    margin-top: 0px;
+  }
+}

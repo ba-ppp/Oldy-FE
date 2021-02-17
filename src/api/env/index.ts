@@ -5,9 +5,9 @@ const ENVIRONMENT = {
 } as const;
   
 const HOST = {
-    DEVELOPMENT: "https://fitec-system.dumban.com",
-    STAGING: "https://fitec-system.dumban.com",
-    PRODUCTION: "https://fitec-system.dumban.com",
+    DEVELOPMENT: "https://oldybe.herokuapp.com",
+    STAGING: "https://oldybe.herokuapp.com",
+    PRODUCTION: "https://oldybe.herokuapp.com",
 } as const;
 
 const environment = ENVIRONMENT.DEVELOPMENT;

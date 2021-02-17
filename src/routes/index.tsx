@@ -1,4 +1,4 @@
-import { Register } from "components";
+import { Login, Register } from "components";
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
 import PrivateRoute from "./privateRoute";
@@ -10,9 +10,11 @@ const Routes = () => {
   return (
       <BrowserRouter>
         <Switch>
-          <PrivateRoute path= '/'/>
-
           <PublicRoute path='/register' exact component={Register}/>
+          <PublicRoute path='/login' exact component={Login}/>
+
+
+          <PrivateRoute path= '/'/> 
         </Switch>
       </BrowserRouter>
     );

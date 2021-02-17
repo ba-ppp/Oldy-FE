@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 
-const PrivateRoute = ({ Component , ...rest }: any) => {
+const PrivateRoute = ({component: Component , ...rest }: any) => {
   const [checkToken, setcheckToken] = useState(false); // check if token wrong
 
   let token = window.localStorage.getItem("token"); //set token at here
@@ -47,17 +47,19 @@ const PrivateRoute = ({ Component , ...rest }: any) => {
       }
     }
   });
+  
   return (
-    <Route
-      {...rest}
-      render={() => {
-        if (!token || checkToken) {
-          return <Redirect to={{ pathname: "/login" }} />;
-        }
-        return <Component />;
-      }}
-    />
-  );
+      <Route
+        {...rest}
+        render={() => {
+          if (!token || checkToken) {
+            return <Redirect to={{ pathname: "/login" }} />;
+          }
+          return <Component />;
+        }}
+      />
+    );
 };
+
 
 export default PrivateRoute;
