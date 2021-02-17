@@ -47,7 +47,7 @@ function Register() {
   const [isLogin, setisLogin] = useState(false);
   const [checkUsername, setcheckUsername] = useState("");
   const [checkName, setcheckName] = useState("");
-  const [checkEmail, setcheckEmail] = useState("");
+  const [checkEmail, setcheckEmail] = useState<'success' | 'error' | undefined>(undefined);
   const [inputUsername, setinputUsername] = useState("");
   const [inputName, setinputName] = useState("");
 
