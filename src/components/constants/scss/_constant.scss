@@ -1,0 +1,12 @@
+// background body
+$background_color: #fafafa;
+
+// background form
+$background_form: #fff;
+$solid_form: #e0dcdc;
+
+@mixin img_logo {
+    display: block;
+    margin: auto;
+    max-width: 40%;
+}
