@@ -42,7 +42,7 @@ const tailFormItemLayout = {
     },
 };
 
-const MyForm:React.FC = () => {
+const Login:React.FC = () => {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
 
@@ -153,13 +153,13 @@ const MyForm:React.FC = () => {
                             htmlType="submit"
                             disabled={isEmpty}
                         >
-                            Đăng kí
+                            Đăng nhập
                         </Button>
                     </Form.Item>
                 </Form>
                 <div className={cls.redirect_login}>
-                    Bạn đã có tài khoản?
-                    <Link to='/login'> Đăng nhập</Link>
+                    Bạn chưa có tài khoản?
+                    <Link to='/register'> Đăng kí</Link>
                 </div>
                 {/* switch to home */}
                 {isLogin && (
@@ -174,4 +174,4 @@ const MyForm:React.FC = () => {
     );
 };
 
-export default MyForm
+export default Login
