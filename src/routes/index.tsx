@@ -1,7 +1,7 @@
-import { Login, Register } from "components";
+import { Home, Login, Register } from "components";
 import Forget from "components/ForgetPass";
 import InputCode from "components/ForgetPass/inputCode";
-import React, { Suspense, lazy } from "react";
+import React from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
 import PrivateRoute from "./privateRoute";
 import PublicRoute from "./publicRoute";
@@ -17,7 +17,7 @@ const Routes: React.FC = () => (
             <PublicRoute path='/forget-password' exact component={Forget} />
           
 
-            <PrivateRoute path='/' exact component={Login} /> 
+            <PrivateRoute path='/' exact component={Home} /> 
         </Switch>
     </BrowserRouter>
 );

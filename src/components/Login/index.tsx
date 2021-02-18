@@ -1,17 +1,20 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable react/jsx-props-no-spreading */
 import { Button, Checkbox, Form, Input } from 'antd';
-import openNotificationWithIcon from 'helpers/design/notification';
-import logo from 'assets/images/logo/logo_192x192_w.jpg';
-import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
 import { login } from 'api/auth';
+import { addProfile } from 'app/slices/userProfileSlice';
+import logo from 'assets/images/logo/logo_192x192_w.jpg';
+import openNotificationWithIcon from 'helpers/design/notification';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 import cls from './_login.module.scss';
 
 
 type State = {
   username: string,
-  password: string
+  password: string,
+  remember: boolean
 }
 
 // style
@@ -41,27 +44,78 @@ const tailFormItemLayout = {
 
 const MyForm:React.FC = () => {
     const [form] = Form.useForm();
+    const dispatch = useDispatch();
 
     // value user input
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
+    const [usernameInput, setUsernameInput] = useState("")
+    const [passwordInput, setPasswordInput] = useState("")
 
     // can not click button when input is empty
     const [isEmpty, setIsEmpty] = useState(true);
 
     // login success
-    const [isLogin, setIsLoggin] = useState(false);
+    const [isLogin, setIsLoggin] = useState(false);   
 
+    // check input form is empty 
     const onChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setUsername(event.target.value)
+        const username = event.target.value;
+        setUsernameInput(username);
+        if(username && passwordInput){
+            setIsEmpty(false)
+        }else{
+            setIsEmpty(true);
+        }
     }
     const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value)
+        const password = event.target.value;
+
+        // if password be able to login
+        if(password.length >= 6){
+            // if form not empty
+            if(usernameInput && password){
+                setIsEmpty(false)
+            }else{
+                setIsEmpty(true);
+            }
+            setPasswordInput(password);
+        }else{
+            setIsEmpty(true);
+        }
+        
+        
     }
 
-    const onFinish = (values: State) => {
-        console.log(values);
-      
+    const onFinish = async (values: State) => {
+        login(values)
+            .then((response) => {
+                const { error, email, name, username, token } = response;
+
+                // if username or password not correct
+                if(error){
+                    openNotificationWithIcon('error','Đăng nhập thất bại', error);
+                    return null;
+                }
+
+                // else
+                const data = {
+                    email,
+                    name,
+                    username
+                }
+                const action = addProfile(data);
+                dispatch(action);
+
+                // set token to local storage
+                if(token){
+                    window.localStorage.setItem('token', token);
+                }
+                setIsLoggin(true);
+                return null;
+            })
+            .catch((error) => {
+                throw new Error(error)
+            })
+        
     };
 
 
