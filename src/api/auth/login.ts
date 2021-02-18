@@ -2,11 +2,24 @@ import Environment from "api/env";
 import axios from "axios";
 
 type props = {
-    username: string, 
-    password: string
+  username: string, 
+  password: string
 }
 
-const login = async ({ username, password }: props) => {
+type ServerData = {
+  token: string,
+  errorCode: number,
+  firstLogin: boolean,
+  name: string,
+  email: string
+}
+
+type AxiosResponse = {
+  data: ServerData
+}
+
+
+const login = async ({ username, password }: props): Promise<ServerData> => {
   const data = {
     username,
     password,
@@ -16,10 +29,11 @@ const login = async ({ username, password }: props) => {
 
   return new Promise((resolve, reject) => {
     axios.post(url, data)
-      .then((response) => {
-        resolve(response);
+      .then((response: AxiosResponse) => {
+        const data = response.data;
+        resolve(data);
       })
-      .catch((e) => {
+      .catch((e: any) => {
         console.error(`login fail: ${e}`);
         reject(e);
       });

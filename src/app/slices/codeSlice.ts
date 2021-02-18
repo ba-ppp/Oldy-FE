@@ -8,19 +8,15 @@ export type CodeReducer = {
 const codeSlice = createSlice({
   name: "codeApply",
   initialState: {
-    codeOTP: "",
-    token: "",
+    codeOTP: ""
   } as CodeReducer,
   reducers: {
     addcode: (state: CodeReducer, action): void => {
       state.codeOTP = action.payload;
-    },
-    setToken: (state: CodeReducer, action): void => {
-      state.token = action.payload;
-    },
+    }
   },
 });
 
-export const { addcode, setToken } = codeSlice.actions;
+export const { addcode } = codeSlice.actions;
 
 export default codeSlice.reducer;

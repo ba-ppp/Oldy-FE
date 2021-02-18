@@ -1,50 +1,49 @@
-@import "../constants/scss/constant";
+@use '../constants/scss/constant' as c;
 
-.login {
-  padding-top: 5%;
-}
+$width: 450px;
+
 body {
-  background-color: $background_color;
-  @media screen and (max-width: 1024px) {
-    background-color: $background_form;
-  }
+  background-color: c.$background_color;
 }
 
-.btn {
+.body {
+  border: 1px solid c.$solid_form;
+
+  max-width: $width;
+  max-height: 600px;
+
   margin: auto;
-  display: block;
-}
-.line {
-  display: flex;
-  justify-content: center;
+  margin-top: 5em;
+
+  padding: 20px 20px 20px;
+
+  background-color: c.$background_form;
 }
 
-.MainBox {
-  width: 30%;
-  margin: auto;
-  border: 1px solid;
-  border-color: $solid_form;
-  background-color: $background_form;
-  padding: 20px;
-  .input {
-    display: block;
-    width: 80%;
-    margin: auto;
-    margin-bottom: 10px;
-  }
-  .btn {
-    display: block;
-    width: 80%;
-    margin: auto;
-  }
-  @media screen and (max-width: 1024px) {
-    width: 60%;
+@media (max-width: 1025px) {
+  .body {
     border: none;
     margin-top: 0px;
   }
-  @media screen and (max-width: 719px) {
-    width: 100%;
-    border: none;
+  .main {
+    max-height: 300px;
+  }
+}
+
+@media (max-height: 415px) {
+  .body {
+    border-bottom: none;
+    border-top: none;
     margin-top: 0px;
   }
+}
+
+.img_logo {
+  @include c.img_logo;
+}
+
+.redirect_login {
+  max-width: $width;
+  text-align: center;
+  margin: auto;
 }

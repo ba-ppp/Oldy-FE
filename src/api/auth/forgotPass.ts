@@ -2,26 +2,31 @@ import Environment from "api/env";
 import axios from "axios";
 
 type props = {
-    email: string
+  email: string
 }
 
-export type response = {
-  code: string,
-  token: string
+export type ServerData = {
+  code: string
+}
+
+type AxiosResponse = {
+  data: ServerData
 }
 
 
-const forgot = ( { email } : props): Promise<response> => {
+const forgot = ( { email } : props): Promise<ServerData> => {
   const data = {
-    email: email
+    email
   };
   const url = Environment.getForgotEndPoint();
+
     return new Promise((resolve, reject) => {
     axios.post(url, data)
-      .then((response: any) => {
-        resolve(response)
+      .then((response: AxiosResponse) => {
+        const data = response.data;
+        resolve(data)
       })
-      .catch((e) => {
+      .catch((e: any) => {
         console.error(`login fail: ${e}`);
         reject(e);
       });

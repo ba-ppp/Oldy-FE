@@ -1,30 +1,43 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input } from 'antd';
 import openNotificationWithIcon from 'helpers/design/notification';
 import logo from 'assets/images/logo/logo_192x192_w.jpg';
 import { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import cls from './_login.module.scss';
+import { login } from 'api/auth'
 
 const axios = require('axios').default;
 
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+  },
+};
+
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 10,
+    },
+  },
+};
+
 const MyForm = () => {
-  const [isLoggin, setIsLoggin] = useState(false);
+  const [form] = Form.useForm();
+  const [isLogin, setIsLoggin] = useState(false);
   const onFinish = (values: any) => {
-    // console.log(values);
-    axios.post('https://oldybe.herokuapp.com/login', values)
-    .then(function (response: any) {
-      console.log(response);
-      const data = response.data;
-      if (data.isLogin){        
-        localStorage.setItem('token', data.token);
-        setIsLoggin(true);
-      } else {
-        openNotificationWithIcon('error',data.error,'Đăng nhập thất bại')
-      }
-    })
-    .catch(function (error: any) {
-      console.log(error);
-    });
+   console.log(values);
+    
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -32,61 +45,69 @@ const MyForm = () => {
   };
 
   return (
-    <div className={cls.MainBox}>
-        <img src={logo} style={{margin:'auto', display: 'block'}}/>
-    <div>
-      <Form
-        name="basic"
-        initialValues={{
-          remember: true,
-        }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-      >
-        <Form.Item
-          className={cls.item}
-          name="account"
-          rules={[
-            {
-              message: 'Vui lòng nhập tài khoản!',
-            },
-          ]}
-        >
-          <Input placeholder='Tài khoản' className={cls.input}/>
-        </Form.Item>
+    <div className={cls.main}>
+        <div className={cls.body}>
+            <img alt="logo" className={cls.img_logo} src={logo} />
+            <Form
+                {...formItemLayout}
+                form={form}
+                name="register"
+                onFinish={onFinish}
+                scrollToFirstError
 
-        <Form.Item className={cls.item}
-          name="password"
-          rules={[
-            {
-              message: 'Vui lòng nhập mật khẩu!',
-            },
-          ]}
-        >
-          <Input.Password placeholder='Mật khẩu' className={cls.input}/>
-        </Form.Item>
+            >
+                <Form.Item
+                        name="username"
+                        hasFeedback
+                        rules={[
+                            () => ({
+                                validator(_, value) {
+                                  
+                                },
+                            }),
+                            
+                        ]}
+                    >
+                        <Input placeholder="Tên người dùng" style={{marginLeft:60}}/>
+                    </Form.Item>
 
-        <Form.Item >
-          <Button type="primary" htmlType="submit" className={cls.btn} >
-            Đăng nhập
-          </Button>
-        </Form.Item>
-        <Form.Item>
-          <div className={cls.line}>
-            <Link to='/forget-pass' style={{color: '#1890ff'}}>Quên mật khẩu? </Link>
-          </div>
-        </Form.Item>
-        <Form.Item >
-          <div className={cls.line}>
-            Bạn chưa có tài khoản?
-            <Link to='/register' style={{marginLeft: 10, color: '#1890ff'}}>Đăng kí </Link>
-          </div>
-        </Form.Item>
-      </Form>
-      {isLoggin && (<Redirect to={{pathname: "/"}}/>)}
- 
-    </div>
-    </div>
+                    <Form.Item
+                        name="password"
+                        rules={[
+                            () => ({
+                                validator(_, value) {
+                                    
+                                },
+                            }),
+                        ]}
+                    >
+                        <Input.Password placeholder="Mật khẩu" style={{marginLeft:60}}/>
+                    </Form.Item>
+
+                    <Form.Item name="remember" valuePropName="checked" style={{marginLeft:60}}>
+                      <Checkbox>Remember me</Checkbox>
+                    </Form.Item>
+                
+                    <Form.Item {...tailFormItemLayout}>
+                        <Button type="primary"
+                            htmlType="submit"
+                        >
+                            Đăng kí
+                        </Button>
+                    </Form.Item>
+                </Form>
+                <div className={cls.redirect_login}>
+                    Bạn đã có tài khoản?<Link to='/login'> Đăng nhập</Link>
+                </div>
+                {/* switch to home */}
+                {isLogin && (<Redirect
+                    to={{
+                        pathname: "/",
+                    }}
+                />
+                )}
+            </div>
+        </div>
   );
 };
 
