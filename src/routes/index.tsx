@@ -8,20 +8,19 @@ import PublicRoute from "./publicRoute";
 
 
 
-const Routes = () => {
-  return (
-      <BrowserRouter>
+const Routes: React.FC = () => (
+    <BrowserRouter>
         <Switch>
-          <PublicRoute path='/register' exact component={Register}/>
-          <PublicRoute path='/login' exact component={Login}/>
-          <PublicRoute path='/forget-password/input-code' exact component={InputCode}/>
-          <PublicRoute path='/forget-password' exact component={Forget}/>
+            <PublicRoute path='/register' exact component={Register} />
+            <PublicRoute path='/login' exact component={Login} />
+            <PublicRoute path='/forget-password/input-code' exact component={InputCode} />
+            <PublicRoute path='/forget-password' exact component={Forget} />
           
 
-          <PrivateRoute path= '/'/> 
+            <PrivateRoute path='/' exact component={Login} /> 
         </Switch>
-      </BrowserRouter>
-    );
-};
+    </BrowserRouter>
+);
+
 
 export default Routes;

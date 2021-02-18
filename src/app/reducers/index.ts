@@ -5,6 +5,6 @@ const rootReducer = {
     code: codeSlice
 };
 
-export type reducer = typeof rootReducer;
+export type Reducer = typeof rootReducer;
 
 export default rootReducer;

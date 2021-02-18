@@ -1,65 +1,84 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable react/jsx-props-no-spreading */
 import { Route, Redirect } from "react-router-dom";
-import React from "react";
-import jwt from "jsonwebtoken";
-import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect , useState } from "react";
+import jwt_decode from "jwt-decode";
+import PropTypes from 'prop-types';
+
+type Props = {
+  component: React.FC,
+  path: string,
+  exact: boolean
+}
+
+type Decode = {
+  exp: number,
+  id: string,
+}
 
 
-const PrivateRoute = ({component: Component , ...rest }: any) => {
-  const [checkToken, setcheckToken] = useState(false); // check if token wrong
+const PrivateRoute:React.FC<Props> = (props) => {
+    const { path, exact, component } = props;
+    const Component = component
+    const [checkToken, setcheckToken] = useState(false); // check if token wrong
 
-  let token = window.localStorage.getItem("token"); //set token at here
-  useEffect(() => {
-    if (token) {
-      const decode:any = jwt.decode(token);
+    const token = window.localStorage.getItem("token"); // set token at here
+    useEffect(() => {
+        if (token) {
 
-      if (!decode) {
-        window.localStorage.removeItem("token");
-        setcheckToken(true);
-        return;
-      }
-      const exp = decode.exp;
-
-      const now = Math.floor(Date.now() / 1000);
-
-      // if expired
-      if (exp - now <= 0) {
-        // get new token by refreshtoken
-        const id = decode._id;
-
-        axios
-          .post(process.env["NODE_ENV"], { id: id })
-          .then((res) => {
-            const data = res.data;
-            if (data.err) {
-              // if refreshToken expired
-              window.localStorage.removeItem("token");
-              token = null;
-            } else {
-              let newToken = data.token;
-              window.localStorage.setItem("token", newToken);
+            const decode:Decode | null  = jwt_decode(token);;
+            if (!decode) {
+                window.localStorage.removeItem("token");
+                setcheckToken(true);
+                return;
             }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    }
-  });
+            const {exp} = decode;
+
+            const now = Math.floor(Date.now() / 1000);
+
+            // if expired
+            if (exp - now <= 0) {
+                // get new token by refreshtoken
+                // const {id} = decode;
+
+                // axios
+                //     .post(process.env["NODE_ENV"], { id: id })
+                //     .then((res) => {
+                //         const data = res.data;
+                //             if (data.err) {
+                //               // if refreshToken expired
+                //               window.localStorage.removeItem("token");
+                //               token = null;
+                //             } else {
+                //               let newToken = data.token;
+                //               window.localStorage.setItem("token", newToken);
+                //             }
+                //     })
+                //     .catch((err) => {
+                //       console.log(err);
+                //     });
+            }
+        }
+    }, [token]);
   
-  return (
-      <Route
-        {...rest}
-        render={() => {
-          if (!token || checkToken) {
-            return <Redirect to={{ pathname: "/login" }} />;
-          }
-          return <Component />;
-        }}
-      />
+    return (
+        <Route
+            path={path}
+            exact={exact}
+            render={() => {
+                if (!token || checkToken) {
+                    return <Redirect to={{ pathname: "/login" }} />;
+                }
+                return <Component />;
+            }}
+        />
     );
 };
 
+PrivateRoute.propTypes = {
+    path: PropTypes.string.isRequired,
+    exact: PropTypes.bool.isRequired,
+    component: PropTypes.func.isRequired
+}
 
 export default PrivateRoute;

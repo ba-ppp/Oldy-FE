@@ -6,15 +6,16 @@ export type CodeReducer = {
 }
 
 const codeSlice = createSlice({
-  name: "codeApply",
-  initialState: {
-    codeOTP: ""
-  } as CodeReducer,
-  reducers: {
-    addcode: (state: CodeReducer, action): void => {
-      state.codeOTP = action.payload;
-    }
-  },
+    name: "codeApply",
+    initialState: {
+        codeOTP: ""
+    } as CodeReducer,
+    reducers: {
+        addcode: (state: CodeReducer, action): void => {
+            // eslint-disable-next-line no-param-reassign
+            state.codeOTP = action.payload;
+        } 
+    },
 });
 
 export const { addcode } = codeSlice.actions;

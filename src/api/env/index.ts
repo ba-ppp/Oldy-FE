@@ -14,23 +14,23 @@ const environment = ENVIRONMENT.DEVELOPMENT;
 
 export default {
     HOST_URL: HOST[environment],
-    getLoginEndpoint() {
-      return this.HOST_URL + "/api/login";
+    getLoginEndpoint(): string {
+        return `${this.HOST_URL}/api/login`;
     },
-    getRegistrationEndPoint() {
-      return this.HOST_URL + "/api/registration";
+    getRegistrationEndPoint(): string {
+        return `${this.HOST_URL  }/api/registration`;
     },
-    getVerifyOTPEndPoint() {
-      return this.HOST_URL + "/api/registration/verification";
+    getVerifyOTPEndPoint(): string {
+        return `${this.HOST_URL  }/api/registration/verification`;
     },
-    getProfileEndPoint() {
-      return this.HOST_URL + "/api/profile";
+    getProfileEndPoint(): string {
+        return `${this.HOST_URL  }/api/profile`;
     },
-    getForgotEndPoint() {
-      return this.HOST_URL + "/api/password/forgot";
+    getForgotEndPoint(): string {
+        return `${this.HOST_URL  }/api/password/forgot`;
     },
-    getChangePasswordEndPoint() {
-      return this.HOST_URL + "/api/profile/password";
+    getChangePasswordEndPoint(): string {
+        return `${this.HOST_URL  }/api/profile/password`;
     },
 };
   

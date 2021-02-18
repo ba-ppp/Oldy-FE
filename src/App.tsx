@@ -5,12 +5,10 @@ import Routes from 'routes';
 import './App.css';
 
 
-function App() {
-  return (
+const App: React.FC = () => (
     <Provider store={store}>
-      <Routes />
+        <Routes />
     </Provider>
-  );
-}
+)
 
 export default App;

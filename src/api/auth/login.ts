@@ -1,7 +1,7 @@
 import Environment from "api/env";
 import axios from "axios";
 
-type props = {
+type Props = {
   username: string, 
   password: string
 }
@@ -9,9 +9,9 @@ type props = {
 type ServerData = {
   token: string,
   errorCode: number,
-  firstLogin: boolean,
   name: string,
-  email: string
+  email: string,
+  username: string
 }
 
 type AxiosResponse = {
@@ -19,25 +19,25 @@ type AxiosResponse = {
 }
 
 
-const login = async ({ username, password }: props): Promise<ServerData> => {
-  const data = {
-    username,
-    password,
-  };
+const login = async ({ username, password }: Props): Promise<ServerData> => {
+    const data = {
+        username,
+        password,
+    };
 
-  const url = Environment.getLoginEndpoint();
+    const url = Environment.getLoginEndpoint();
 
-  return new Promise((resolve, reject) => {
-    axios.post(url, data)
-      .then((response: AxiosResponse) => {
-        const data = response.data;
-        resolve(data);
-      })
-      .catch((e: any) => {
-        console.error(`login fail: ${e}`);
-        reject(e);
-      });
-  });
+    return new Promise((resolve, reject) => {
+        axios.post(url, data)
+            .then((response: AxiosResponse) => {
+                const dataResponse = response.data;
+                resolve(dataResponse);
+                return null;
+            })
+            .catch((e: unknown) => {
+                reject(e);
+            });
+    });
 };
 
 export default login;
