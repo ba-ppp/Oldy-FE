@@ -6,12 +6,21 @@ type Props = {
   password: string
 }
 
+type PromiseResponse = {
+  token?: string,
+  name?: string,
+  username?: string,
+  email?: string,
+  error?: string
+}
+
 type ServerData = {
   token: string,
   errorCode: number,
   name: string,
   email: string,
-  username: string
+  username: string,
+  error: string
 }
 
 type AxiosResponse = {
@@ -19,7 +28,7 @@ type AxiosResponse = {
 }
 
 
-const login = async ({ username, password }: Props): Promise<ServerData> => {
+const login = async ({ username, password }: Props): Promise<PromiseResponse> => {
     const data = {
         username,
         password,
@@ -27,11 +36,21 @@ const login = async ({ username, password }: Props): Promise<ServerData> => {
 
     const url = Environment.getLoginEndpoint();
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject)=> {
         axios.post(url, data)
             .then((response: AxiosResponse) => {
                 const dataResponse = response.data;
-                resolve(dataResponse);
+                if(dataResponse.errorCode === 0){
+                    const profile = {
+                        email: dataResponse.email,
+                        name: dataResponse.name,
+                        username: dataResponse.username,
+                        token: dataResponse.token
+                    }
+                    resolve(profile);
+                    return null;
+                }
+                resolve({ error: dataResponse.error});
                 return null;
             })
             .catch((e: unknown) => {
