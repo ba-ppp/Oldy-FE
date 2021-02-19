@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import cls from './_login.module.scss';
+import  './login.scss'
 
 
 type State = {
@@ -18,29 +19,21 @@ type State = {
 }
 
 // style
-const formItemLayout = {
-    labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-    },
-    wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-    },
-};
+
 
 const tailFormItemLayout = {
     wrapperCol: {
         xs: {
             span: 24,
-            offset: 0,
+            offset: 0
         },
         sm: {
             span: 16,
-            offset: 10,
+            offset: 8,
         },
     },
 };
+
 
 const Login:React.FC = () => {
     const [form] = Form.useForm();
@@ -123,28 +116,23 @@ const Login:React.FC = () => {
         <div className={cls.main}>
             <div className={cls.body}>
                 <img alt="logo" className={cls.img_logo} src={logo} />
-                <Form
-                    {...formItemLayout}
+                <Form   
                     form={form}
-                    name="register"
+                    name="login"
                     onFinish={onFinish}
                     scrollToFirstError
                 >
 
                     <Form.Item
-                        name="username"           
+                        name="username"         
                     >
-                        <Input placeholder="Tên người dùng" style={{marginLeft:60}} onChange={onChangeUsername} />
+                        <Input placeholder="Tên người dùng" onChange={onChangeUsername} />
                     </Form.Item>
 
                     <Form.Item
                         name="password"
                     >
-                        <Input.Password placeholder="Mật khẩu" style={{marginLeft:60}} onChange={onChangePassword} />
-                    </Form.Item>
-
-                    <Form.Item name="remember" valuePropName="checked" style={{marginLeft:60}}>
-                        <Checkbox>Remember me</Checkbox>
+                        <Input.Password placeholder="Mật khẩu" onChange={onChangePassword} />
                     </Form.Item>
       
                     <Form.Item {...tailFormItemLayout}>

@@ -1,3 +1,4 @@
+import Loading from 'components/Loading';
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
 import PrivateRoute from "./privateRoute";
@@ -10,10 +11,8 @@ const Forget = lazy(() => import("components/ForgetPass"))
 const InputCode = lazy(() => import("components/ForgetPass/inputCode"))
 
 
-
-
 const Routes: React.FC = () => (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loading />}>
         <BrowserRouter>
             <Switch>
                 <PublicRoute path='/register' exact component={Register} />
