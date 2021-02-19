@@ -1,34 +1,36 @@
-import Environment from "api/env";
-import axios from "axios";
+import Environment from 'api/env';
+import axios from 'axios';
 
 type Props = {
-  username: string, 
-  password: string
-}
+    username: string;
+    password: string;
+};
 
 type PromiseResponse = {
-  token?: string,
-  name?: string,
-  username?: string,
-  email?: string,
-  error?: string
-}
+    token?: string;
+    name?: string;
+    username?: string;
+    email?: string;
+    error?: string;
+};
 
 type ServerData = {
-  token: string,
-  errorCode: number,
-  name: string,
-  email: string,
-  username: string,
-  error: string
-}
+    token: string;
+    errorCode: number;
+    name: string;
+    email: string;
+    username: string;
+    error: string;
+};
 
 type AxiosResponse = {
-  data: ServerData
-}
+    data: ServerData;
+};
 
-
-const login = async ({ username, password }: Props): Promise<PromiseResponse> => {
+const login = async ({
+    username,
+    password,
+}: Props): Promise<PromiseResponse> => {
     const data = {
         username,
         password,
@@ -36,21 +38,22 @@ const login = async ({ username, password }: Props): Promise<PromiseResponse> =>
 
     const url = Environment.getLoginEndpoint();
 
-    return new Promise((resolve, reject)=> {
-        axios.post(url, data)
+    return new Promise((resolve, reject) => {
+        axios
+            .post(url, data)
             .then((response: AxiosResponse) => {
                 const dataResponse = response.data;
-                if(dataResponse.errorCode === 0){
+                if (dataResponse.errorCode === 0) {
                     const profile = {
                         email: dataResponse.email,
                         name: dataResponse.name,
                         username: dataResponse.username,
-                        token: dataResponse.token
-                    }
+                        token: dataResponse.token,
+                    };
                     resolve(profile);
                     return null;
                 }
-                resolve({ error: dataResponse.error});
+                resolve({ error: dataResponse.error });
                 return null;
             })
             .catch((e: unknown) => {
