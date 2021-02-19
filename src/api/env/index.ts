@@ -1,13 +1,13 @@
 const ENVIRONMENT = {
-    DEVELOPMENT: "DEVELOPMENT",
-    STAGING: "STAGING",
-    PRODUCTION: "PRODUCTION",
+    DEVELOPMENT: 'DEVELOPMENT',
+    STAGING: 'STAGING',
+    PRODUCTION: 'PRODUCTION',
 } as const;
-  
+
 const HOST = {
-    DEVELOPMENT: "https://oldybe.herokuapp.com",
-    STAGING: "https://oldybe.herokuapp.com",
-    PRODUCTION: "https://oldybe.herokuapp.com",
+    DEVELOPMENT: 'https://oldybe.herokuapp.com',
+    STAGING: 'https://oldybe.herokuapp.com',
+    PRODUCTION: 'https://oldybe.herokuapp.com',
 } as const;
 
 const environment = ENVIRONMENT.DEVELOPMENT;
@@ -18,19 +18,18 @@ export default {
         return `${this.HOST_URL}/api/login`;
     },
     getRegistrationEndPoint(): string {
-        return `${this.HOST_URL  }/api/registration`;
+        return `${this.HOST_URL}/api/registration`;
     },
     getVerifyOTPEndPoint(): string {
-        return `${this.HOST_URL  }/api/registration/verification`;
+        return `${this.HOST_URL}/api/registration/verification`;
     },
     getProfileEndPoint(): string {
-        return `${this.HOST_URL  }/api/profile`;
+        return `${this.HOST_URL}/api/profile`;
     },
     getForgotEndPoint(): string {
-        return `${this.HOST_URL  }/api/password/forgot`;
+        return `${this.HOST_URL}/api/password/forgot`;
     },
     getChangePasswordEndPoint(): string {
-        return `${this.HOST_URL  }/api/profile/password`;
+        return `${this.HOST_URL}/api/profile/password`;
     },
 };
-  

@@ -1,20 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export type CodeReducer = {
-  codeOTP: string,
-  token: string
-}
+    codeOTP: string;
+    token: string;
+};
 
 const codeSlice = createSlice({
-    name: "codeApply",
+    name: 'codeApply',
     initialState: {
-        codeOTP: ""
+        codeOTP: '',
     } as CodeReducer,
     reducers: {
         addcode: (state: CodeReducer, action): void => {
             // eslint-disable-next-line no-param-reassign
             state.codeOTP = action.payload;
-        } 
+        },
     },
 });
 
