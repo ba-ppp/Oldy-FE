@@ -25,10 +25,12 @@ body {
 
     .input {
         width: 60%;
-        margin-bottom: 20px;
+
         border: 1px solid #d2d0d0;
+
         padding: 4px;
         padding-left: 15px;
+        margin-bottom: 20px;
     }
     .input:focus {
         outline: none;
@@ -40,8 +42,11 @@ body {
 
     .button {
         display: block;
+
         min-width: 110px;
+
         text-align: center;
+
         margin: auto;
         margin-bottom: 15px;
         top: -15px;
@@ -50,32 +55,40 @@ body {
 
 .password {
     display: block;
-    height: 40px;
+    font-family: 22px sans-serif;
+
     text-align: left;
+
+    height: 40px;
     padding-left: 70px;
     padding-top: 10px;
-    font-family: 22px sans-serif;
+
     position: relative;
     top: 0;
     left: 0;
 
     .icon {
         position: absolute;
-        right: 22%;
         cursor: pointer;
+
+        right: 22%;
         bottom: 160%;
+
         fill: #c7c7c7;
+    }
+    .icon:hover {
+        fill: black;
     }
 }
 
 .newform {
     border: 1px solid c.$solid_form;
+
     max-width: $width;
     max-height: 300px;
 
     margin: auto;
     margin-top: 2em;
-
     padding: 20px 20px 20px;
 
     background-color: c.$background_form;

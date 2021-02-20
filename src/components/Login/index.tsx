@@ -9,7 +9,6 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import './login.scss';
 import cls from './_login.module.scss';
 
 type State = {
