@@ -1,17 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export type UserProfileReducer = {
-  email: string,
-  name: string,
-  username: string
-}
+    email: string;
+    name: string;
+    username: string;
+};
 
 const userProfileSlice = createSlice({
-    name: "profile",
+    name: 'profile',
     initialState: {
-        email: "",
-        name: "",
-        username: ""
+        email: '',
+        name: '',
+        username: '',
     } as UserProfileReducer,
     reducers: {
         addProfile: (state: UserProfileReducer, action) => {
@@ -20,8 +20,8 @@ const userProfileSlice = createSlice({
             newState.email = email;
             newState.name = name;
             newState.username = username;
-            return newState
-        } 
+            return newState;
+        },
     },
 });
 

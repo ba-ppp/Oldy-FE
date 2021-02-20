@@ -1,28 +1,31 @@
-import Environment from "api/env";
-import axios from "axios";
+import Environment from 'api/env';
+import axios from 'axios';
 
 type Props = {
-  email: string, 
-  name: string,
-  password: string,
-  username: string
-}
+    email: string;
+    name: string;
+    password: string;
+    username: string;
+};
 
 type ServerData = {
-  errorCode: number
-  username: string,
-  email: string,
-  name: string,
-  error: string
-}
+    errorCode: number;
+    username: string;
+    email: string;
+    name: string;
+    error: string;
+};
 
 type AxiosResponse = {
-  data: ServerData
-}
+    data: ServerData;
+};
 
-
-
-const register = ({ email, name, password, username }: Props): Promise<ServerData> => {
+const register = ({
+    email,
+    name,
+    password,
+    username,
+}: Props): Promise<ServerData> => {
     const data = {
         email,
         password,
@@ -33,18 +36,19 @@ const register = ({ email, name, password, username }: Props): Promise<ServerDat
     const url = Environment.getRegistrationEndPoint();
 
     return new Promise((resolve, reject) => {
-        axios.post(url, data)
+        axios
+            .post(url, data)
             .then((response: AxiosResponse) => {
                 const dataResponse = response.data;
                 if (dataResponse.errorCode === 0) {
-                // SUCCESS
+                    // SUCCESS
                     resolve(dataResponse);
                     return null;
                 }
 
                 // FAIL
                 reject(dataResponse.error);
-                return null;  
+                return null;
             })
             .catch((e: unknown) => {
                 reject(e);

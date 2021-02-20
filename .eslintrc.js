@@ -1,24 +1,19 @@
 module.exports = {
-    root: true,
-    parser: "@typescript-eslint/parser",
-    parserOptions: {
-      tsconfigRootDir: __dirname,
-      project: ["./tsconfig.json"],
+  root: true,
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    ecmaVersion: 6,
+    sourceType: "module",
+    ecmaFeatures: {
+      modules: true,
     },
-    rules: {
-      "react/reace-in-jsx-scope": 'off',
-      indent: ['error', 4],
-      "react/jsx-indent": ["error", 4],
-      "react/jsx-indent-props": ["error", 4],
-    },
-    plugins: ["@typescript-eslint"],
-    extends: [
-      "airbnb-typescript",
-      "airbnb/hooks",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:eslint-comments/recommended",
-      "plugin:promise/recommended",
-      "prettier",
-      "prettier/@typescript-eslint",
-    ]
+  },
+  plugins: ["@typescript-eslint"],
+  extends: [
+    "react-app",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
+  ],
 };

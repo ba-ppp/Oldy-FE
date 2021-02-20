@@ -1,4 +1,3 @@
-import { createAction } from '@reduxjs/toolkit';
 import { Button, Form, Input } from 'antd';
 import { forgotPassword } from 'api/auth';
 import { addcode } from 'app/slices/codeSlice';
@@ -6,21 +5,20 @@ import logo from 'assets/images/logo/logo_192x192_w.jpg';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { ServerData } from 'api/auth/forgotPass'
+import { ServerData } from 'api/auth/forgotPass';
 import cls from './_forget.module.scss';
 
 type State = {
-    email: string
-}
+    email: string;
+};
 
-
-const Forget:React.FC = () => {
+const Forget: React.FC = () => {
     const [form] = Form.useForm();
     const [isPost, setisPost] = useState(false);
     const dispatch = useDispatch();
 
     const onFinish = async (value: State) => {
-        const {email} = value;
+        const { email } = value;
         forgotPassword({ email })
             .then((res: ServerData) => {
                 // create action
@@ -28,13 +26,13 @@ const Forget:React.FC = () => {
                 // dispatch
                 dispatch(actionAddCode);
                 // redirect
-                setisPost(true)
+                setisPost(true);
                 return null;
             })
             .catch((err) => {
-                throw new Error(err)
-            })
-    }
+                throw new Error(err);
+            });
+    };
     return (
         <div className={cls.main}>
             <img alt="logo" className={cls.img_logo} src={logo} />
@@ -50,29 +48,24 @@ const Forget:React.FC = () => {
                 onFinish={onFinish}
                 scrollToFirstError
             >
-                <Form.Item
-                    name="account"
-                >
+                <Form.Item name="account">
                     <Input placeholder="Email, tên người dùng" />
                 </Form.Item>
                 <Form.Item>
-                    <Button
-                        type="primary"
-                        htmlType="submit"
-                    >
+                    <Button type="primary" htmlType="submit">
                         Gửi mã
                     </Button>
-                </Form.Item>    
+                </Form.Item>
             </Form>
             {isPost && (
                 <Redirect
                     to={{
-                        pathname: "/forget-pass/code",
+                        pathname: '/forget-pass/code',
                     }}
                 />
             )}
         </div>
     );
-}
+};
 
 export default Forget;

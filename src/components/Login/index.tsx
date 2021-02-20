@@ -1,34 +1,22 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable react/jsx-props-no-spreading */
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { login } from 'api/auth';
+import { PromiseResponse } from 'api/auth/login';
 import { addProfile } from 'app/slices/userProfileSlice';
 import logo from 'assets/images/logo/logo_192x192_w.jpg';
 import openNotificationWithIcon from 'helpers/design/notification';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import './login.scss';
 import cls from './_login.module.scss';
 
-
 type State = {
-  username: string,
-  password: string,
-  remember: boolean
-}
-
-// style
-const formItemLayout = {
-    labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-    },
-    wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-    },
+    username: string;
+    password: string;
+    remember: boolean;
 };
 
+// style
 const tailFormItemLayout = {
     wrapperCol: {
         xs: {
@@ -37,62 +25,64 @@ const tailFormItemLayout = {
         },
         sm: {
             span: 16,
-            offset: 10,
+            offset: 8,
         },
     },
 };
 
-const Login:React.FC = () => {
+const Login: React.FC = () => {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
 
     // value user input
-    const [usernameInput, setUsernameInput] = useState("")
-    const [passwordInput, setPasswordInput] = useState("")
+    const [usernameInput, setUsernameInput] = useState('');
+    const [passwordInput, setPasswordInput] = useState('');
 
     // can not click button when input is empty
     const [isEmpty, setIsEmpty] = useState(true);
 
     // login success
-    const [isLogin, setIsLoggin] = useState(false);   
+    const [isLogin, setIsLoggin] = useState(false);
 
-    // check input form is empty 
+    // check input form is empty
     const onChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
         const username = event.target.value;
         setUsernameInput(username);
-        if(username && passwordInput){
-            setIsEmpty(false)
-        }else{
+        if (username && passwordInput) {
+            setIsEmpty(false);
+        } else {
             setIsEmpty(true);
         }
-    }
+    };
     const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
         const password = event.target.value;
 
         // if password be able to login
-        if(password.length >= 6){
+        if (password.length >= 6) {
             // if form not empty
-            if(usernameInput && password){
-                setIsEmpty(false)
-            }else{
+            if (usernameInput && password) {
+                setIsEmpty(false);
+            } else {
                 setIsEmpty(true);
             }
             setPasswordInput(password);
-        }else{
+        } else {
             setIsEmpty(true);
         }
-        
-        
-    }
+    };
 
-    const onFinish = async (values: State) => {
+    const onFinish = (values: State) => {
         login(values)
-            .then((response) => {
+            .then((response: PromiseResponse) => {
                 const { error, email, name, username, token } = response;
 
                 // if username or password not correct
-                if(error){
-                    openNotificationWithIcon('error','Đăng nhập thất bại', error);
+                if (error) {
+                    openNotificationWithIcon(
+                        'error',
+                        'Đăng nhập thất bại',
+                        error
+                    );
                     return null;
                 }
 
@@ -100,53 +90,47 @@ const Login:React.FC = () => {
                 const data = {
                     email,
                     name,
-                    username
-                }
+                    username,
+                };
                 const action = addProfile(data);
                 dispatch(action);
 
                 // set token to local storage
-                if(token){
+                if (token) {
                     window.localStorage.setItem('token', token);
                 }
                 setIsLoggin(true);
                 return null;
             })
             .catch((error) => {
-                throw new Error(error)
-            })
-        
+                throw new Error(error);
+            });
     };
-
 
     return (
         <div className={cls.main}>
             <div className={cls.body}>
                 <img alt="logo" className={cls.img_logo} src={logo} />
                 <Form
-                    {...formItemLayout}
                     form={form}
-                    name="register"
+                    name="login"
                     onFinish={onFinish}
                     scrollToFirstError
                 >
-
-                    <Form.Item
-                        name="username"           
-                    >
-                        <Input placeholder="Tên người dùng" style={{marginLeft:60}} onChange={onChangeUsername} />
+                    <Form.Item name="username">
+                        <Input
+                            placeholder="Tên người dùng"
+                            onChange={onChangeUsername}
+                        />
                     </Form.Item>
 
-                    <Form.Item
-                        name="password"
-                    >
-                        <Input.Password placeholder="Mật khẩu" style={{marginLeft:60}} onChange={onChangePassword} />
+                    <Form.Item name="password">
+                        <Input.Password
+                            placeholder="Mật khẩu"
+                            onChange={onChangePassword}
+                        />
                     </Form.Item>
 
-                    <Form.Item name="remember" valuePropName="checked" style={{marginLeft:60}}>
-                        <Checkbox>Remember me</Checkbox>
-                    </Form.Item>
-      
                     <Form.Item {...tailFormItemLayout}>
                         <Button
                             type="primary"
@@ -156,22 +140,28 @@ const Login:React.FC = () => {
                             Đăng nhập
                         </Button>
                     </Form.Item>
+
+                    <Form.Item style={{ textAlign: 'center' }}>
+                        <Link to="/forget-pass">Quên mật khẩu?</Link>
+                    </Form.Item>
                 </Form>
+            </div>
+            <div className={cls.newform}>
                 <div className={cls.redirect_login}>
                     Bạn chưa có tài khoản?
-                    <Link to='/register'> Đăng kí</Link>
+                    <Link to="/register"> Đăng kí</Link>
                 </div>
-                {/* switch to home */}
-                {isLogin && (
-                    <Redirect
-                        to={{
-                            pathname: "/",
-                        }}
-                    />
-                )}
             </div>
+            {/* switch to home */}
+            {isLogin && (
+                <Redirect
+                    to={{
+                        pathname: '/',
+                    }}
+                />
+            )}
         </div>
     );
 };
 
-export default Login
+export default Login;

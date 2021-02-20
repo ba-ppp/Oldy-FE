@@ -1,27 +1,27 @@
-import Environment from "api/env";
-import axios from "axios";
+import Environment from 'api/env';
+import axios from 'axios';
 
 type Props = {
-  email: string
-}
+    email: string;
+};
 
 export type ServerData = {
-  code: string
-}
+    code: string;
+};
 
 type AxiosResponse = {
-  data: ServerData
-}
+    data: ServerData;
+};
 
-
-const forgot = ( { email } : Props): Promise<ServerData> => {
+const forgot = ({ email }: Props): Promise<ServerData> => {
     const data = {
-        email
+        email,
     };
     const url = Environment.getForgotEndPoint();
 
     return new Promise((resolve, reject) => {
-        axios.post(url, data)
+        axios
+            .post(url, data)
             .then((response: AxiosResponse) => {
                 const dataResponse = response.data;
                 resolve(dataResponse);
