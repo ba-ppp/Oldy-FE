@@ -1,8 +1,7 @@
 import { Button, Form, Input } from 'antd';
-import 'antd/dist/antd.css';
 import logo from 'assets/images/logo/logo_192x192_w.jpg';
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import cls from './_register.module.scss';
 
 // style
@@ -31,8 +30,11 @@ const tailFormItemLayout = {
 };
 
 const Register: React.FC = () => {
+    // style
     const [form] = Form.useForm();
-    const [isLogin, setisLogin] = useState(false);
+
+    const [isEmpty, setIsEmpty] = useState(true);
+
     const [checkUsername, setcheckUsername] = useState('');
     const [checkName, setcheckName] = useState('');
     const [checkEmail, setcheckEmail] = useState<
@@ -41,12 +43,14 @@ const Register: React.FC = () => {
     const [inputUsername, setinputUsername] = useState('');
     const [inputName, setinputName] = useState('');
 
+    // check empty
+
     // submit
     const onFinish = (values: any) => {
         console.log(values);
-        setisLogin(true);
         console.log(checkUsername);
         console.log(checkName);
+        setIsEmpty(false);
 
         // axios
 
@@ -198,7 +202,11 @@ const Register: React.FC = () => {
                         <Input.Password />
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit">
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            disabled={isEmpty}
+                        >
                             Đăng kí
                         </Button>
                     </Form.Item>
@@ -207,14 +215,6 @@ const Register: React.FC = () => {
                     Bạn đã có tài khoản?
                     <Link to="/login"> Đăng nhập</Link>
                 </div>
-                {/* switch to home */}
-                {isLogin && (
-                    <Redirect
-                        to={{
-                            pathname: '/',
-                        }}
-                    />
-                )}
             </div>
         </div>
     );

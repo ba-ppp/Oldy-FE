@@ -20,6 +20,54 @@ body {
     background-color: c.$background_form;
 }
 
+.form {
+    text-align: center;
+
+    .input {
+        width: 60%;
+        margin-bottom: 20px;
+        border: 1px solid #d2d0d0;
+        padding: 4px;
+        padding-left: 15px;
+    }
+    .input:focus {
+        outline: none;
+    }
+    ::placeholder {
+        color: #c7c7c7;
+        opacity: 1;
+    }
+
+    .button {
+        display: block;
+        max-width: 25%;
+        min-width: 25%;
+        text-align: center;
+        margin: auto;
+        margin-bottom: 20px;
+    }
+}
+
+.password {
+    display: block;
+    height: 40px;
+    text-align: left;
+    padding-left: 70px;
+    padding-top: 10px;
+    font-family: 22px sans-serif;
+    position: relative;
+    top: 0;
+    left: 0;
+
+    .icon {
+        position: absolute;
+        right: 84px;
+        cursor: pointer;
+        bottom: 63px;
+        fill: #c7c7c7;
+    }
+}
+
 .newform {
     border: 1px solid c.$solid_form;
     max-width: $width;

@@ -1,10 +1,12 @@
-import { Button, Form, Input } from 'antd';
-import { login } from 'api/auth';
-import { PromiseResponse } from 'api/auth/login';
-import { addProfile } from 'app/slices/userProfileSlice';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { Button } from 'antd';
+import { addProfile, getLogin } from 'app/slices/userProfileSlice';
+import { ReactComponent as NotVisible } from 'assets/images/auth/not-visible.svg';
+import { ReactComponent as Visible } from 'assets/images/auth/visible.svg';
 import logo from 'assets/images/logo/logo_192x192_w.jpg';
 import openNotificationWithIcon from 'helpers/design/notification';
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import './login.scss';
@@ -13,30 +15,22 @@ import cls from './_login.module.scss';
 type State = {
     username: string;
     password: string;
-    remember: boolean;
-};
-
-// style
-const tailFormItemLayout = {
-    wrapperCol: {
-        xs: {
-            span: 24,
-            offset: 0,
-        },
-        sm: {
-            span: 16,
-            offset: 8,
-        },
-    },
 };
 
 const Login: React.FC = () => {
-    const [form] = Form.useForm();
+    // form
+    const { handleSubmit, register } = useForm<State>();
+
+    //redux
     const dispatch = useDispatch();
 
     // value user input
     const [usernameInput, setUsernameInput] = useState('');
     const [passwordInput, setPasswordInput] = useState('');
+
+    // password visible
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [passwordType, setPasswordType] = useState('password');
 
     // can not click button when input is empty
     const [isEmpty, setIsEmpty] = useState(true);
@@ -71,80 +65,85 @@ const Login: React.FC = () => {
         }
     };
 
-    const onFinish = (values: State) => {
-        login(values)
-            .then((response: PromiseResponse) => {
-                const { error, email, name, username, token } = response;
+    // password visible
+    const hidePassword = () => {
+        const hide = passwordVisible;
+        setPasswordVisible(!passwordVisible);
+        if (!hide) {
+            setPasswordType('text');
+        } else {
+            setPasswordType('password');
+        }
+    };
 
-                // if username or password not correct
-                if (error) {
-                    openNotificationWithIcon(
-                        'error',
-                        'Đăng nhập thất bại',
-                        error
-                    );
-                    return null;
-                }
+    const onFinish = async (values: State) => {
+        const actionResult = await dispatch(getLogin(values));
+        const result = unwrapResult(actionResult);
 
-                // else
-                const data = {
-                    email,
-                    name,
-                    username,
-                };
-                const action = addProfile(data);
-                dispatch(action);
+        if (result.error) {
+            openNotificationWithIcon(
+                'error',
+                'Đăng nhập thất bại',
+                result.error
+            );
+        } else {
+            addProfile(result);
 
-                // set token to local storage
-                if (token) {
-                    window.localStorage.setItem('token', token);
-                }
-                setIsLoggin(true);
-                return null;
-            })
-            .catch((error) => {
-                throw new Error(error);
-            });
+            // set token
+            window.localStorage.setItem('token', result.token);
+            setIsLoggin(true);
+        }
     };
 
     return (
         <div className={cls.main}>
             <div className={cls.body}>
                 <img alt="logo" className={cls.img_logo} src={logo} />
-                <Form
-                    form={form}
-                    name="login"
-                    onFinish={onFinish}
-                    scrollToFirstError
-                >
-                    <Form.Item name="username">
-                        <Input
-                            placeholder="Tên người dùng"
-                            onChange={onChangeUsername}
-                        />
-                    </Form.Item>
+                <form className={cls.form} onSubmit={handleSubmit(onFinish)}>
+                    <input
+                        name="username"
+                        ref={register}
+                        className={cls.input}
+                        placeholder="Tên người dùng"
+                        onChange={onChangeUsername}
+                    />
+                    <input
+                        name="password"
+                        ref={register}
+                        className={cls.input}
+                        placeholder="Mật khẩu"
+                        onChange={onChangePassword}
+                        type={passwordType}
+                    />
+                    <div className={cls.password}>
+                        {passwordVisible && (
+                            <Visible
+                                height={25}
+                                className={cls.icon}
+                                onClick={hidePassword}
+                            />
+                        )}
+                        {!passwordVisible && (
+                            <NotVisible
+                                height={25}
+                                className={cls.icon}
+                                onClick={hidePassword}
+                            />
+                        )}
+                    </div>
+                    <Button
+                        className={cls.button}
+                        type="primary"
+                        htmlType="submit"
+                        disabled={isEmpty}
+                    >
+                        Đăng nhập
+                    </Button>
 
-                    <Form.Item name="password">
-                        <Input.Password
-                            placeholder="Mật khẩu"
-                            onChange={onChangePassword}
-                        />
-                    </Form.Item>
-
-                    <Form.Item {...tailFormItemLayout}>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            disabled={isEmpty}
-                        >
-                            Đăng nhập
-                        </Button>
-                    </Form.Item>
-
-                    <Form.Item style={{ textAlign: 'center' }}>
+                    <div style={{ textAlign: 'center' }}>
                         <Link to="/forget-pass">Quên mật khẩu?</Link>
-                    </Form.Item>
-                </Form>
+                    </div>
+                </form>
             </div>
             <div className={cls.newform}>
                 <div className={cls.redirect_login}>

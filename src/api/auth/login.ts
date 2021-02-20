@@ -6,13 +6,13 @@ type Props = {
     password: string;
 };
 
-export type PromiseResponse = {
+export interface PromiseResponse {
     token?: string;
     name?: string;
     username?: string;
     email?: string;
     error?: string;
-};
+}
 
 type ServerData = {
     token: string;
@@ -51,10 +51,8 @@ const login = async ({
                         token: dataResponse.token,
                     };
                     resolve(profile);
-                    return null;
                 }
                 resolve({ error: dataResponse.error });
-                return null;
             })
             .catch((e: any) => {
                 reject(e);
