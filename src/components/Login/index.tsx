@@ -118,14 +118,14 @@ const Login: React.FC = () => {
                     <div className={cls.password}>
                         {passwordVisible && (
                             <Visible
-                                height={25}
+                                height={20}
                                 className={cls.icon}
                                 onClick={hidePassword}
                             />
                         )}
                         {!passwordVisible && (
                             <NotVisible
-                                height={25}
+                                height={20}
                                 className={cls.icon}
                                 onClick={hidePassword}
                             />
@@ -141,7 +141,7 @@ const Login: React.FC = () => {
                     </Button>
 
                     <div style={{ textAlign: 'center' }}>
-                        <Link to="/forget-pass">Quên mật khẩu?</Link>
+                        <Link to="/forget-password">Quên mật khẩu?</Link>
                     </div>
                 </form>
             </div>
