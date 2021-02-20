@@ -1,13 +1,13 @@
 import React from 'react';
 
-const Home:React.FC = () => {
-    const a = '2'
+const Home: React.FC = () => {
+    const a = '2';
     return (
         <div>
-            home 
+            home
             {a}
         </div>
     );
-}
+};
 
 export default Home;
