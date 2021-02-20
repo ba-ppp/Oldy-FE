@@ -1,13 +1,14 @@
 import { Button, Form, Input } from 'antd';
 import { login } from 'api/auth';
+import { PromiseResponse } from 'api/auth/login';
 import { addProfile } from 'app/slices/userProfileSlice';
 import logo from 'assets/images/logo/logo_192x192_w.jpg';
 import openNotificationWithIcon from 'helpers/design/notification';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import cls from './_login.module.scss';
 import './login.scss';
+import cls from './_login.module.scss';
 
 type State = {
     username: string;
@@ -70,9 +71,9 @@ const Login: React.FC = () => {
         }
     };
 
-    const onFinish = async (values: State) => {
+    const onFinish = (values: State) => {
         login(values)
-            .then((response) => {
+            .then((response: PromiseResponse) => {
                 const { error, email, name, username, token } = response;
 
                 // if username or password not correct
@@ -139,20 +140,26 @@ const Login: React.FC = () => {
                             Đăng nhập
                         </Button>
                     </Form.Item>
+
+                    <Form.Item style={{ textAlign: 'center' }}>
+                        <Link to="/forget-pass">Quên mật khẩu?</Link>
+                    </Form.Item>
                 </Form>
+            </div>
+            <div className={cls.newform}>
                 <div className={cls.redirect_login}>
                     Bạn chưa có tài khoản?
                     <Link to="/register"> Đăng kí</Link>
                 </div>
-                {/* switch to home */}
-                {isLogin && (
-                    <Redirect
-                        to={{
-                            pathname: '/',
-                        }}
-                    />
-                )}
             </div>
+            {/* switch to home */}
+            {isLogin && (
+                <Redirect
+                    to={{
+                        pathname: '/',
+                    }}
+                />
+            )}
         </div>
     );
 };

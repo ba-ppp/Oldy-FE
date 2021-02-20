@@ -6,7 +6,7 @@ type Props = {
     password: string;
 };
 
-type PromiseResponse = {
+export type PromiseResponse = {
     token?: string;
     name?: string;
     username?: string;
@@ -56,7 +56,7 @@ const login = async ({
                 resolve({ error: dataResponse.error });
                 return null;
             })
-            .catch((e: unknown) => {
+            .catch((e: any) => {
                 reject(e);
             });
     });

@@ -3,48 +3,69 @@
 $width: 450px;
 
 body {
-	background-color: c.$background_color;
+    background-color: c.$background_color;
 }
 
 .body {
-	border: 1px solid c.$solid_form;
+    border: 1px solid c.$solid_form;
 
-	max-width: $width;
-	max-height: 600px;
+    max-width: $width;
+    max-height: 600px;
 
-	margin: auto;
-	margin-top: 5em;
+    margin: auto;
+    margin-top: 5em;
 
-	padding: 20px 20px 20px;
+    padding: 20px 20px 20px;
 
-	background-color: c.$background_form;
+    background-color: c.$background_form;
+}
+
+.newform {
+    border: 1px solid c.$solid_form;
+    max-width: $width;
+    max-height: 300px;
+
+    margin: auto;
+    margin-top: 2em;
+
+    padding: 20px 20px 20px;
+
+    background-color: c.$background_form;
 }
 
 @media (max-width: 1025px) {
-	.body {
-		border: none;
-		margin-top: 0px;
-	}
-	.main {
-		margin-top: 100px;
-		max-height: 300px;
-	}
+    .body {
+        border: none;
+        margin-top: 0px;
+    }
+    .newform {
+        border: none;
+        margin-top: 20px;
+    }
+    .main {
+        margin-top: 100px;
+        max-height: 300px;
+    }
 }
 
 @media (max-height: 415px) {
-	.body {
-		border-bottom: none;
-		border-top: none;
-		margin-top: 0px;
-	}
+    .body {
+        border-bottom: none;
+        border-top: none;
+        margin-top: 0px;
+    }
+    .newform {
+        border: none;
+        margin-top: 20px;
+    }
 }
 
 .img_logo {
-	@include c.img_logo;
+    @include c.img_logo;
 }
 
 .redirect_login {
-	max-width: $width;
-	text-align: center;
-	margin: auto;
+    max-width: $width;
+    text-align: center;
+    margin: auto;
 }

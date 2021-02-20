@@ -19,4 +19,5 @@ PublicRoute.propTypes = {
     exact: PropTypes.bool.isRequired,
     component: PropTypes.any.isRequired,
 };
+
 export default PublicRoute;
