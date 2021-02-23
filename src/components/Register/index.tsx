@@ -102,7 +102,6 @@ const Register: React.FC = () => {
             );
         } else {
             addProfile(result);
-
             // set token
             window.localStorage.setItem('token', result.token);
             setisSuccess(true);
