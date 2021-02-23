@@ -13,6 +13,7 @@ type ServerData = {
     username: string;
     email: string;
     name: string;
+    token: string;
     error: string;
 };
 
@@ -20,12 +21,20 @@ type AxiosResponse = {
     data: ServerData;
 };
 
+interface PromiseResponse {
+    token?: string;
+    name?: string;
+    username?: string;
+    email?: string;
+    error?: string;
+}
+
 const register = ({
     email,
     name,
     password,
     username,
-}: Props): Promise<ServerData> => {
+}: Props): Promise<PromiseResponse> => {
     const data = {
         email,
         password,
@@ -42,15 +51,18 @@ const register = ({
                 const dataResponse = response.data;
                 if (dataResponse.errorCode === 0) {
                     // SUCCESS
-                    resolve(dataResponse);
-                    return null;
+                    const profile = {
+                        username: dataResponse.username,
+                        name: dataResponse.name,
+                        email: dataResponse.email,
+                        token: dataResponse.token,
+                    };
+                    resolve(profile);
                 }
-
                 // FAIL
-                reject(dataResponse.error);
-                return null;
+                resolve({ error: dataResponse.error });
             })
-            .catch((e: unknown) => {
+            .catch((e: any) => {
                 reject(e);
             });
     });

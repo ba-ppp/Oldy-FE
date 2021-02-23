@@ -1,221 +1,193 @@
-import { Button, Form, Input } from 'antd';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Button } from 'antd';
 import logo from 'assets/images/logo/logo_192x192_w.jpg';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { Link, Redirect } from 'react-router-dom';
+import * as yup from 'yup';
 import cls from './_register.module.scss';
+import { useDispatch } from 'react-redux';
+import { addProfile, getRegister } from 'app/slices/userProfileSlice';
+import { unwrapResult } from '@reduxjs/toolkit';
+import openNotificationWithIcon from 'helpers/design/notification';
 
-// style
-const formItemLayout = {
-    labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-    },
-    wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-    },
+type State = {
+    name: string;
+    username: string;
+    email: string;
+    password: string;
 };
 
-const tailFormItemLayout = {
-    wrapperCol: {
-        xs: {
-            span: 24,
-            offset: 0,
-        },
-        sm: {
-            span: 16,
-            offset: 10,
-        },
-    },
-};
+const validation = yup.object().shape({
+    name: yup
+        .string()
+        .matches(/^[a-zA-Z\s]*$/, 'Vui lòng nhập tên hợp lệ')
+        .required('Hãy nhập tên của bạn'),
+
+    username: yup.string().min(3, 'Tên người dùng không hợp lệ').required(),
+
+    email: yup
+        .string()
+        .email('Vui lòng nhập email hợp lệ')
+        .required('Hãy nhập email hợp lệ'),
+
+    password: yup
+        .string()
+        .min(6, 'Mật khẩu phải có độ dài lớn hơn 6')
+        .required(),
+});
 
 const Register: React.FC = () => {
-    // style
-    const [form] = Form.useForm();
+    // form
+    const { handleSubmit, register, errors } = useForm<State>({
+        resolver: yupResolver(validation),
+    });
 
-    const [isEmpty, setIsEmpty] = useState(true);
+    const dispatch = useDispatch();
 
-    const [checkUsername, setcheckUsername] = useState('');
-    const [checkName, setcheckName] = useState('');
-    const [checkEmail, setcheckEmail] = useState<
-        'success' | 'error' | undefined
-    >(undefined);
-    const [inputUsername, setinputUsername] = useState('');
-    const [inputName, setinputName] = useState('');
+    // user input
+    const [username, setUserName] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    // check empty
+    // empty form
+    const [empty, setEmpty] = useState(true);
 
-    // submit
-    const onFinish = (values: any) => {
-        console.log(values);
-        console.log(checkUsername);
-        console.log(checkName);
-        setIsEmpty(false);
+    //register success
+    const [isSuccess, setisSuccess] = useState(false);
 
-        // axios
-
-        //   .post(process.env.REACT_APP_API_REGISTER, values)
-        //   .then((res) => {
-        //     const data = res.data;
-        //     if (data.error) {
-        //       // nortification
-        //       Notification("error", data.error, "Đăng kí thất bại");
-        //       setcheckUsername("error");
-        //       form.resetFields();
-        //     } else {
-        //       window.localStorage.setItem("token", data.token);
-        //       setisLogin(true);
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //   });
+    const onChangeName = (values: React.ChangeEvent<HTMLInputElement>) => {
+        setName(values.target.value);
+        if (values.target.value && username && email && password) {
+            setEmpty(false);
+        } else {
+            setEmpty(true);
+        }
     };
+    const onChangeUserName = (values: React.ChangeEvent<HTMLInputElement>) => {
+        setUserName(values.target.value);
+        if (values.target.value && name && email && password) {
+            setEmpty(false);
+        } else {
+            setEmpty(true);
+        }
+    };
+    const onChangeEmail = (values: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(values.target.value);
+        if (values.target.value && username && name && password) {
+            setEmpty(false);
+        } else {
+            setEmpty(true);
+        }
+    };
+    const onChangePassword = (values: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(values.target.value);
+        if (values.target.value && username && email && name) {
+            setEmpty(false);
+        } else {
+            setEmpty(true);
+        }
+    };
+
+    const onFinish = async (values: State) => {
+        const actionResult = await dispatch(getRegister(values));
+        const result = unwrapResult(actionResult);
+
+        if (result.error) {
+            openNotificationWithIcon(
+                'error',
+                'Đăng nhập thất bại',
+                result.error
+            );
+        } else {
+            addProfile(result);
+            // set token
+            window.localStorage.setItem('token', result.token);
+            setisSuccess(true);
+        }
+    };
+
+    // style
+    const errorInput = { border: '1px solid red' };
+    const corretInput = { border: '1px solid #e0dcdc' };
 
     return (
         <div className={cls.main}>
             <div className={cls.body}>
                 <img alt="logo" className={cls.img_logo} src={logo} />
-                <Form
-                    {...formItemLayout}
-                    form={form}
-                    name="register"
-                    onFinish={onFinish}
-                    scrollToFirstError
-                >
-                    <Form.Item
-                        name="email"
-                        label="E-mail"
-                        hasFeedback
-                        validateStatus={checkEmail}
-                        rules={[
-                            () => ({
-                                validator(_, value) {
-                                    setcheckEmail('error');
-                                    const dot = value.indexOf('.');
-                                    const adot = value.indexOf('@');
-                                    if (!value) {
-                                        return Promise.reject(
-                                            'Hãy nhập vào email của bạn'
-                                        );
-                                    }
-                                    if (
-                                        dot <= adot ||
-                                        dot === value.length - 1
-                                    ) {
-                                        return Promise.reject(
-                                            'Hãy nhập email hợp lệ'
-                                        );
-                                    }
-                                    setcheckEmail('success');
-                                    return Promise.resolve();
-                                },
-                            }),
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="username"
-                        initialValue={inputUsername}
-                        hasFeedback
-                        label={<span>Tên người dùng&nbsp;</span>}
-                        rules={[
-                            () => ({
-                                validator(_, value) {
-                                    setcheckUsername('error');
-                                    const pattern = /[a-z]/;
-                                    if (!value.toLowerCase().match(pattern)) {
-                                        return Promise.reject(
-                                            'Tên người dùng phải chứa ký tự chữ cái'
-                                        );
-                                    }
-                                    if (value.length >= 3) {
-                                        setcheckUsername('success');
-                                    } else {
-                                        return Promise.reject(
-                                            'Tên người dùng phải chứa ít nhất 3 ký tự'
-                                        );
-                                    }
-                                    setinputUsername(value);
-                                    return Promise.resolve();
-                                },
-                            }),
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
+                <form className={cls.form} onSubmit={handleSubmit(onFinish)}>
+                    <input
+                        className={cls.input1}
                         name="name"
-                        initialValue={inputName}
-                        hasFeedback
-                        label={<span>Tên đầy đủ&nbsp;</span>}
-                        rules={[
-                            () => ({
-                                validator(_, value) {
-                                    setcheckName('error');
-                                    const pattern = /[0-9]/;
-                                    if (value.match(pattern)) {
-                                        return Promise.reject(
-                                            'Hãy nhập tên hợp lệ'
-                                        );
-                                    }
-                                    if (value.length >= 3) {
-                                        setcheckName('success');
-                                    } else {
-                                        return Promise.reject(
-                                            'Tên đầy đủ phải chứa ít nhất 3 ký tự'
-                                        );
-                                    }
-                                    setinputName(value);
-                                    return Promise.resolve();
-                                },
-                            }),
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
+                        ref={register}
+                        onChange={onChangeName}
+                        placeholder="Tên đầy đủ"
+                        style={errors.name ? errorInput : corretInput}
+                    />
+                    <p className={cls.error}>{errors.name?.message}</p>
 
-                    <Form.Item
+                    <input
+                        className={cls.input}
+                        name="username"
+                        ref={register}
+                        onChange={onChangeUserName}
+                        placeholder="Tên người dùng"
+                        style={errors.username ? errorInput : corretInput}
+                    />
+                    <p className={cls.error}>{errors.username?.message}</p>
+
+                    <input
+                        className={cls.input}
+                        name="email"
+                        ref={register}
+                        onChange={onChangeEmail}
+                        placeholder="Email"
+                        style={errors.email ? errorInput : corretInput}
+                    />
+                    <p className={cls.error}>{errors.email?.message}</p>
+
+                    <input
+                        className={cls.input}
                         name="password"
-                        label={<span>Mật khẩu&nbsp;</span>}
-                        hasFeedback
-                        rules={[
-                            () => ({
-                                validator(_, value) {
-                                    if (!value) {
-                                        return Promise.reject(
-                                            'Hãy nhập vào mật khẩu của bạn'
-                                        );
-                                    }
-                                    if (value.length >= 6) {
-                                        return Promise.resolve();
-                                    }
+                        ref={register}
+                        onChange={onChangePassword}
+                        placeholder="Mật khẩu"
+                        style={errors.password ? errorInput : corretInput}
+                        type="password"
+                    />
+                    <p className={cls.error}>{errors.password?.message}</p>
 
-                                    return Promise.reject(
-                                        'Mật khẩu phải chứa ít nhất 6 ký tự'
-                                    );
-                                },
-                            }),
-                        ]}
+                    <Button
+                        className={cls.button}
+                        type="primary"
+                        htmlType="submit"
+                        disabled={
+                            empty ||
+                            errors.password ||
+                            errors.email ||
+                            errors.name ||
+                            errors.username
+                                ? true
+                                : false
+                        }
                     >
-                        <Input.Password />
-                    </Form.Item>
-                    <Form.Item {...tailFormItemLayout}>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            disabled={isEmpty}
-                        >
-                            Đăng kí
-                        </Button>
-                    </Form.Item>
-                </Form>
+                        Đăng kí
+                    </Button>
+                </form>
                 <div className={cls.redirect_login}>
                     Bạn đã có tài khoản?
                     <Link to="/login"> Đăng nhập</Link>
                 </div>
             </div>
+            {/* switch to home */}
+            {isSuccess && (
+                <Redirect
+                    to={{
+                        pathname: '/',
+                    }}
+                />
+            )}
         </div>
     );
 };
