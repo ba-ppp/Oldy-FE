@@ -3,9 +3,13 @@ import { Button } from 'antd';
 import logo from 'assets/images/logo/logo_192x192_w.jpg';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import * as yup from 'yup';
 import cls from './_register.module.scss';
+import { useDispatch } from 'react-redux';
+import { addProfile, getRegister } from 'app/slices/userProfileSlice';
+import { unwrapResult } from '@reduxjs/toolkit';
+import openNotificationWithIcon from 'helpers/design/notification';
 
 type State = {
     name: string;
@@ -39,6 +43,8 @@ const Register: React.FC = () => {
         resolver: yupResolver(validation),
     });
 
+    const dispatch = useDispatch();
+
     // user input
     const [username, setUserName] = useState('');
     const [name, setName] = useState('');
@@ -47,6 +53,9 @@ const Register: React.FC = () => {
 
     // empty form
     const [empty, setEmpty] = useState(true);
+
+    //register success
+    const [isSuccess, setisSuccess] = useState(false);
 
     const onChangeName = (values: React.ChangeEvent<HTMLInputElement>) => {
         setName(values.target.value);
@@ -81,8 +90,23 @@ const Register: React.FC = () => {
         }
     };
 
-    const onFinish = (values: State) => {
-        console.log(values);
+    const onFinish = async (values: State) => {
+        const actionResult = await dispatch(getRegister(values));
+        const result = unwrapResult(actionResult);
+
+        if (result.error) {
+            openNotificationWithIcon(
+                'error',
+                'Đăng nhập thất bại',
+                result.error
+            );
+        } else {
+            addProfile(result);
+
+            // set token
+            window.localStorage.setItem('token', result.token);
+            setisSuccess(true);
+        }
     };
 
     // style
@@ -139,7 +163,15 @@ const Register: React.FC = () => {
                         className={cls.button}
                         type="primary"
                         htmlType="submit"
-                        disabled={empty}
+                        disabled={
+                            empty ||
+                            errors.password ||
+                            errors.email ||
+                            errors.name ||
+                            errors.username
+                                ? true
+                                : false
+                        }
                     >
                         Đăng kí
                     </Button>
@@ -149,6 +181,14 @@ const Register: React.FC = () => {
                     <Link to="/login"> Đăng nhập</Link>
                 </div>
             </div>
+            {/* switch to home */}
+            {isSuccess && (
+                <Redirect
+                    to={{
+                        pathname: '/',
+                    }}
+                />
+            )}
         </div>
     );
 };

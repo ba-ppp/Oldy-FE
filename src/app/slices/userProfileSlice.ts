@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { login } from 'api/auth';
+import { login, register } from 'api/auth';
 
 export type UserProfileReducer = {
     email: string;
@@ -14,10 +14,25 @@ interface Login {
     password: string;
 }
 
+interface Register {
+    username: string;
+    password: string;
+    name: string;
+    email: string;
+}
+
 export const getLogin: any = createAsyncThunk(
     'profile/getLogin',
     async (params: Login) => {
         const profile = await login(params);
+        return profile;
+    }
+);
+
+export const getRegister: any = createAsyncThunk(
+    'profile/getRegister',
+    async (params: Register) => {
+        const profile = await register(params);
         return profile;
     }
 );
@@ -45,11 +60,22 @@ const userProfileSlice = createSlice({
         [getLogin.pending]: (state) => {
             state.loading = true;
         },
-        [getLogin.rejected]: (state) => {
+        [getLogin.rejected]: (state, action) => {
             state.loading = false;
-            state.error = 'Server has downed';
+            state.error = action.error;
         },
         [getLogin.fulfilled]: (state) => {
+            state.loading = false;
+        },
+
+        [getRegister.pending]: (state) => {
+            state.loading = true;
+        },
+        [getRegister.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.error;
+        },
+        [getRegister.fulfilled]: (state) => {
             state.loading = false;
         },
     },

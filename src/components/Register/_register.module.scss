@@ -42,6 +42,10 @@ body {
         padding-left: 15px;
         margin-top: 25px;
     }
+
+    .input1:focus {
+        outline: none;
+    }
     .input:focus {
         outline: none;
     }
