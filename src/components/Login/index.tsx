@@ -86,8 +86,8 @@ const Login: React.FC = () => {
                 result.error
             );
         } else {
-            addProfile(result);
-
+            const action = addProfile(result);
+            dispatch(action);
             // set token
             window.localStorage.setItem('token', result.token);
             setIsLoggin(true);

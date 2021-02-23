@@ -1,32 +1,32 @@
 import { Button, Form, Input } from 'antd';
-import { CodeReducer } from 'app/slices/codeSlice';
+import { Reducer } from 'app/reducers';
 import logo from 'assets/images/logo/logo_192x192_w.jpg';
-import openNotificationWithIcon from 'helpers/design/notification';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import cls from './_forget.module.scss';
+import { CodeReducer } from 'app/slices/codeSlice';
 
 const InputCode: React.FC = () => {
     const [form] = Form.useForm();
     const [isSuccess, setisSuccess] = useState(false);
     // get code from code's reducer
-    const codeState = useSelector((state: CodeReducer) => state);
-    const code = codeState.codeOTP;
-    const { token } = codeState;
+    const codeState = useSelector((state: Reducer) => state.code.codeOTP);
+    console.log(codeState);
     const onFinish = (value: any) => {
+        setisSuccess(true);
         // if code correct
-        if (value.code.toString() === code.toString()) {
-            window.localStorage.setItem('token', token);
-            setisSuccess(true);
-        } else {
-            // notification
-            openNotificationWithIcon(
-                'warning',
-                'Mã xác nhận không chính xác',
-                'Nhập mã thất bại'
-            );
-        }
+        // if (value.code.toString() === code.toString()) {
+        //     window.localStorage.setItem('token', token);
+        //     setisSuccess(true);
+        // } else {
+        //     // notification
+        //     openNotificationWithIcon(
+        //         'warning',
+        //         'Mã xác nhận không chính xác',
+        //         'Nhập mã thất bại'
+        //     );
+        // }
     };
     return (
         <div className={cls.main}>

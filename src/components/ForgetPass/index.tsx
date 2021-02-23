@@ -1,11 +1,10 @@
+import { unwrapResult } from '@reduxjs/toolkit';
 import { Button, Form, Input } from 'antd';
-import { forgotPassword } from 'api/auth';
-import { addcode } from 'app/slices/codeSlice';
+import { addcode, getCode } from 'app/slices/codeSlice';
 import logo from 'assets/images/logo/logo_192x192_w.jpg';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { ServerData } from 'api/auth/forgotPass';
 import cls from './_forget.module.scss';
 
 type State = {
@@ -18,21 +17,13 @@ const Forget: React.FC = () => {
     const dispatch = useDispatch();
 
     const onFinish = async (value: State) => {
-        const { email } = value;
-        forgotPassword({ email })
-            .then((res: ServerData) => {
-                // create action
-                const actionAddCode = addcode(res.code);
-                // dispatch
-                dispatch(actionAddCode);
-                // redirect
-                setisPost(true);
-                return null;
-            })
-            .catch((err) => {
-                throw new Error(err);
-            });
+        const actionResult = await dispatch(getCode(value));
+        const result = unwrapResult(actionResult);
+        const action = addcode(result);
+        dispatch(action);
+        setisPost(true);
     };
+
     return (
         <div className={cls.main}>
             <img alt="logo" className={cls.img_logo} src={logo} />
@@ -60,7 +51,7 @@ const Forget: React.FC = () => {
             {isPost && (
                 <Redirect
                     to={{
-                        pathname: '/forget-pass/code',
+                        pathname: '/forget-password/input-code',
                     }}
                 />
             )}

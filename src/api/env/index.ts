@@ -27,7 +27,7 @@ export default {
         return `${this.HOST_URL}/api/profile`;
     },
     getForgotEndPoint(): string {
-        return `${this.HOST_URL}/api/password/forgot`;
+        return `${this.HOST_URL}/api/password/forget`;
     },
     getChangePasswordEndPoint(): string {
         return `${this.HOST_URL}/api/profile/password`;
