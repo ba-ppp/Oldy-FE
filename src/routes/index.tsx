@@ -1,3 +1,4 @@
+import ChangeForget from 'components/ChangePassword/changeForget';
 import Loading from 'components/Loading';
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Switch } from 'react-router-dom';
@@ -24,6 +25,11 @@ const Routes: React.FC = () => (
                 <PublicRoute path="/forget-password" exact component={Forget} />
 
                 <PrivateRoute path="/" exact component={Home} />
+                <PrivateRoute
+                    path="/change-password"
+                    exact
+                    component={ChangeForget}
+                />
             </Switch>
         </BrowserRouter>
     </Suspense>

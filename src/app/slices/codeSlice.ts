@@ -24,11 +24,13 @@ const codeSlice = createSlice({
     initialState: {
         codeOTP: '',
         error: '',
+        token: '',
     } as CodeReducer,
     reducers: {
         addcode: (state: CodeReducer, action): void => {
             // eslint-disable-next-line no-param-reassign
             state.codeOTP = action.payload.code;
+            state.token = action.payload.token;
         },
     },
     extraReducers: {

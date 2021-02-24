@@ -13,7 +13,6 @@ const InputCode: React.FC = () => {
     const state = useSelector((state) => state.code);
     const code = state.codeOTP;
     const token = state.token;
-
     const onFinish = (value: any) => {
         // if code correct
         if (value.code.toString() === code.toString()) {
