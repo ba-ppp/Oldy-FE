@@ -49,35 +49,8 @@ body {
 
         margin: auto;
         margin-bottom: 15px;
-        top: -15px;
-    }
-}
 
-.password {
-    display: block;
-    font-family: 22px sans-serif;
-
-    text-align: left;
-
-    height: 40px;
-    padding-left: 70px;
-    padding-top: 10px;
-
-    position: relative;
-    top: 0;
-    left: 0;
-
-    .icon {
-        position: absolute;
-        cursor: pointer;
-
-        right: 22%;
-        bottom: 160%;
-
-        fill: #c7c7c7;
-    }
-    .icon:hover {
-        fill: black;
+        top: 15px;
     }
 }
 
