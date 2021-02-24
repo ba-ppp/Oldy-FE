@@ -17,6 +17,9 @@ export default {
     getLoginEndpoint(): string {
         return `${this.HOST_URL}/api/login`;
     },
+    getRefreshTokenPoint(): string {
+        return `${this.HOST_URL}/api/login/refreshToken`;
+    },
     getRegistrationEndPoint(): string {
         return `${this.HOST_URL}/api/registration`;
     },

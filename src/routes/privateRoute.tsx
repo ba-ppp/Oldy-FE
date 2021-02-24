@@ -1,7 +1,8 @@
 import { Route, Redirect } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import jwt_decode from 'jwt-decode';
+import jwt from 'jsonwebtoken';
 import PropTypes from 'prop-types';
+import { refreshToken } from 'api/auth';
 
 type Props = {
     component: React.FC;
@@ -12,6 +13,7 @@ type Props = {
 type Decode = {
     exp: number;
     id: string;
+    message: any;
 };
 
 const PrivateRoute: React.FC<Props> = (props) => {
@@ -22,7 +24,7 @@ const PrivateRoute: React.FC<Props> = (props) => {
     const token = window.localStorage.getItem('token'); // set token at here
     useEffect(() => {
         if (token) {
-            const decode: Decode | null = jwt_decode(token);
+            const decode: Decode | any = jwt.decode(token);
             if (!decode) {
                 window.localStorage.removeItem('token');
                 setcheckToken(true);
@@ -35,23 +37,19 @@ const PrivateRoute: React.FC<Props> = (props) => {
             // if expired
             if (exp - now <= 0) {
                 // get new token by refreshtoken
-                // const {id} = decode;
-                // axios
-                //     .post(process.env["NODE_ENV"], { id: id })
-                //     .then((res) => {
-                //         const data = res.data;
-                //             if (data.err) {
-                //               // if refreshToken expired
-                //               window.localStorage.removeItem("token");
-                //               token = null;
-                //             } else {
-                //               let newToken = data.token;
-                //               window.localStorage.setItem("token", newToken);
-                //             }
-                //     })
-                //     .catch((err) => {
-                //       console.log(err);
-                //     });
+                const data = {
+                    id: decode.id,
+                };
+                refreshToken(data).then((value) => {
+                    if (value.error || !value.token) {
+                        // error when get token
+                        window.localStorage.removeItem('token');
+                        setcheckToken(true);
+                        return;
+                    } else {
+                        window.localStorage.setItem('token', value.token);
+                    }
+                });
             }
         }
     }, [token]);
