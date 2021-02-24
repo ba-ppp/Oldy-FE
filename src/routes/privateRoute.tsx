@@ -12,7 +12,7 @@ type Props = {
 
 type Decode = {
     exp: number;
-    id: string;
+    _id: string;
     message: any;
 };
 
@@ -38,7 +38,7 @@ const PrivateRoute: React.FC<Props> = (props) => {
             if (exp - now <= 0) {
                 // get new token by refreshtoken
                 const data = {
-                    id: decode.id,
+                    id: decode._id,
                 };
                 refreshToken(data).then((value) => {
                     if (value.error || !value.token) {

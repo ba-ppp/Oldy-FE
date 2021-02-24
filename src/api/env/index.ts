@@ -33,6 +33,6 @@ export default {
         return `${this.HOST_URL}/api/password/forget`;
     },
     getChangePasswordEndPoint(): string {
-        return `${this.HOST_URL}/api/profile/password`;
+        return `${this.HOST_URL}/api/password/change-password`;
     },
 };
