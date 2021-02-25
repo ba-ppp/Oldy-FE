@@ -1,0 +1,47 @@
+.header {
+    background-color: #fff;
+
+    .header_main {
+        display: flex;
+
+        width: 60%;
+        margin: auto;
+        justify-content: space-between;
+
+        .header_logo {
+            flex-grow: 4;
+        }
+
+        .header_input {
+            display: flex;
+            flex-grow: 3;
+
+            align-items: center;
+
+            .input {
+                padding: 4px;
+                padding-left: 5px;
+            }
+            .input:focus {
+                outline: none;
+            }
+            ::placeholder {
+                color: #c7c7c7;
+                opacity: 1;
+                text-align: center;
+            }
+        }
+
+        .icon {
+            display: flex;
+            flex-grow: 2;
+
+            align-items: center;
+            justify-content: space-around;
+
+            .icon_item {
+                cursor: pointer;
+            }
+        }
+    }
+}

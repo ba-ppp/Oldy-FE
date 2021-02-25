@@ -43,6 +43,7 @@ const PrivateRoute: React.FC<Props> = (props) => {
                 refreshToken(data).then((value) => {
                     if (value.error || !value.token) {
                         // error when get token
+                        console.log(value);
                         window.localStorage.removeItem('token');
                         setcheckToken(true);
                         return;
