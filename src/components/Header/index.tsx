@@ -31,7 +31,7 @@ const Header: React.FC = () => {
         setHeartClick(!heartClick);
     };
     return (
-        <header className={cls.header}>
+        <div className={cls.header}>
             <div className={cls.header_main}>
                 <div className={cls.header_logo}>
                     <img src={logo} height={103} />
@@ -116,7 +116,7 @@ const Header: React.FC = () => {
                     />
                 </div>
             </div>
-        </header>
+        </div>
     );
 };
 

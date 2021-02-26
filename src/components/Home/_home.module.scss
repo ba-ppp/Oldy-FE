@@ -1,62 +1,46 @@
-.home_main {
+.header {
+    height: 100px;
+}
+
+.main {
+    display: flex;
     width: 60%;
-
     margin: auto;
-    margin-top: 30px;
 
-    .home_post {
-        width: 616px;
-        height: 913px;
-        border: 1px solid #b7b5b5;
+    .post {
+        width: 75%;
+    }
 
-        background-color: #fff;
+    .avt {
+        margin-top: 30px;
 
-        .home_post_header {
+        display: flex;
+
+        .avt_image {
+            width: 60px;
             height: 60px;
-            width: 93%;
 
-            margin: auto;
-
-            display: flex;
-            align-items: center;
-
-            .header_avt {
-                height: 32px;
-                width: 32px;
-
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-
-                border-radius: 50%;
-
-                margin-right: 15px;
-            }
-
-            .header_username {
-                font-weight: bold;
-            }
-        }
-
-        .home_post_image {
-            height: 650px;
-            width: 100%;
+            border-radius: 50%;
 
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
         }
 
-        .home_post_comment {
-            width: 94%;
-
+        .avt_name {
+            height: 60px;
             display: flex;
+            align-items: center;
+            margin-left: 25px;
 
-            margin: auto;
-            margin-top: 10px;
+            .avt_name_username {
+                font-size: 18px;
+                font-weight: bold;
+            }
 
-            .home_post_comment_icon {
-                margin-right: 15px;
+            .avt_name_name {
+                font-size: 20px;
+                color: #8e8e8e;
             }
         }
     }

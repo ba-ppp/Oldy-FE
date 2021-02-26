@@ -1,42 +1,34 @@
-import React from 'react';
 import Header from 'components/Header';
+import React from 'react';
 import cls from './_home.module.scss';
-import { ReactComponent as Heart } from 'assets/images/home/heart.svg';
-import { ReactComponent as Comment } from 'assets/images/home/comment.svg';
+import Post from './Post';
 
 const Home: React.FC = () => {
-    const postImage = 'https://loremflickr.com/650/614';
-    const avtHeader = 'https://loremflickr.com/320/240';
-
-    const userName = 'pebeoooo';
-
+    const userName = 'pebeooo';
+    const name = 'Gia Bảo';
+    const userAvt = 'https://loremflickr.com/320/240';
     return (
         <div>
-            <Header />
-            <div className={cls.home_main}>
-                <div className={cls.home_post}>
-                    <header className={cls.home_post_header}>
-                        <div
-                            className={cls.header_avt}
-                            style={{ backgroundImage: `url(${avtHeader})` }}
-                        />
-                        <div className={cls.header_username}>{userName}</div>
-                    </header>
+            <div className={cls.header}>
+                <Header />
+            </div>
+            <div className={cls.main}>
+                <div className={cls.post}>
+                    <Post />
+                    <Post />
+                </div>
+                <div className={cls.avt}>
                     <div
-                        className={cls.home_post_image}
-                        style={{ backgroundImage: `url(${postImage})` }}
+                        className={cls.avt_image}
+                        style={{ backgroundImage: `url(${userAvt})` }}
                     />
-                    <div className={cls.home_post_comment}>
-                        <Heart
-                            className={cls.home_post_comment_icon}
-                            height={25}
-                            width={25}
-                        />
-                        <Comment
-                            className={cls.home_post_comment_icon}
-                            height={25}
-                            width={25}
-                        />
+                    <div className={cls.avt_name}>
+                        <div>
+                            <div className={cls.avt_name_username}>
+                                {userName}
+                            </div>
+                            <div className={cls.avt_name_name}>{name}</div>
+                        </div>
                     </div>
                 </div>
             </div>
