@@ -30,6 +30,7 @@ const Header: React.FC = () => {
     const heartOnClick = () => {
         setHeartClick(!heartClick);
     };
+
     return (
         <div className={cls.header}>
             <div className={cls.header_main}>
@@ -45,7 +46,7 @@ const Header: React.FC = () => {
                     />
                 </div>
 
-                <div className={cls.icon}>
+                <nav className={cls.icon}>
                     {homeClick && (
                         <HomeBlackIcon
                             className={cls.icon_item}
@@ -114,7 +115,7 @@ const Header: React.FC = () => {
                         className={cls.icon_avt}
                         style={{ backgroundImage: `url(${avt})` }}
                     />
-                </div>
+                </nav>
             </div>
         </div>
     );

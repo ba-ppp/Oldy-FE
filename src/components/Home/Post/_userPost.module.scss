@@ -1,71 +1,128 @@
-.home_main {
-    width: 60%;
-
+.home_post {
     margin: auto;
-    margin-top: 30px;
+    margin-bottom: 30px;
 
-    .home_post {
-        width: 616px;
-        height: 800px;
-        border: 1px solid #eae3e3;
+    width: 616px;
+    height: 800px;
 
-        background-color: #fff;
+    border: 1px solid #eae3e3;
 
-        .home_post_header {
-            height: 60px;
-            width: 93%;
+    background-color: #fff;
 
-            margin: auto;
+    .home_main {
+        margin: auto;
+    }
 
-            display: flex;
-            align-items: center;
+    .home_post_header {
+        height: 60px;
+        width: 93%;
 
-            .header_avt {
-                height: 32px;
-                width: 32px;
+        margin: auto;
 
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
+        display: flex;
+        align-items: center;
 
-                border-radius: 50%;
-
-                margin-right: 15px;
-            }
-
-            .header_username {
-                font-weight: bold;
-            }
-        }
-
-        .home_post_image {
-            height: 650px;
-            width: 100%;
+        .header_avt {
+            height: 32px;
+            width: 32px;
 
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
+
+            border-radius: 50%;
+
+            margin-right: 15px;
         }
 
-        .home_post_comment {
-            width: 93%;
-
-            .home_post_comment_react {
-                display: flex;
-            }
-
-            margin: auto;
-            margin-top: 10px;
-
-            .home_post_comment_icon {
-                margin-right: 15px;
-            }
-
-            .home_post_react {
-                margin-right: 17px;
-                font-size: 20px;
-                margin-left: 5px;
-            }
+        .header_username {
+            font-weight: bold;
         }
+    }
+
+    .home_post_image {
+        height: 650px;
+        width: 100%;
+
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .home_post_comment {
+        width: 93%;
+
+        .home_post_comment_react {
+            display: flex;
+        }
+
+        margin: auto;
+        margin-top: 10px;
+
+        .home_post_comment_icon {
+            margin-right: 15px;
+        }
+
+        .home_post_react {
+            margin-right: 17px;
+            font-size: 20px;
+            margin-left: 5px;
+        }
+    }
+}
+
+// responsive desktop
+
+@media screen and (max-width: 1023px) {
+    .home_post {
+        width: 500px !important;
+        height: 650px !important;
+    }
+    .home_post_image {
+        height: 500px !important;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .home_post {
+        width: 400px !important;
+        height: 550px !important;
+    }
+    .home_post_image {
+        height: 400px !important;
+    }
+}
+
+@media screen and (max-width: 487px) {
+    .home_post {
+        width: 300px !important;
+        height: 450px !important;
+    }
+    .home_post_image {
+        height: 300px !important;
+    }
+}
+@media screen and (max-width: 319px) {
+    .home_post {
+        width: 300px !important;
+        height: 450px !important;
+    }
+    .home_post_image {
+        height: 300px !important;
+    }
+}
+
+//responsive mobile
+@media screen and (max-device-width: 480px) {
+    .home_post {
+        width: 100% !important;
+        height: 350px !important;
+    }
+    .home_post_image {
+        height: 200px !important;
+    }
+    .home_post_react {
+        margin-right: 22px !important;
+        font-size: 15px !important;
     }
 }

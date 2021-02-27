@@ -9,7 +9,7 @@
     .header_main {
         display: flex;
 
-        width: 60%;
+        max-width: 60%;
         margin: auto;
         justify-content: space-between;
 
@@ -22,6 +22,8 @@
             flex-grow: 3;
 
             align-items: center;
+
+            margin-right: 0.7em;
 
             .input {
                 padding: 4px;
@@ -46,6 +48,7 @@
 
             .icon_item {
                 cursor: pointer;
+                margin-right: 0.8em;
             }
 
             .icon_avt {
@@ -60,5 +63,11 @@
                 background-size: cover;
             }
         }
+    }
+}
+
+@media screen and (max-width: 487px) {
+    .header_input {
+        display: none !important;
     }
 }

@@ -1,14 +1,12 @@
-.header {
-    height: 100px;
-}
-
 .main {
     display: flex;
-    width: 60%;
+    width: 70%;
     margin: auto;
 
     .post {
         width: 75%;
+        margin: auto;
+        margin-top: 30px;
     }
 
     .avt {
@@ -17,8 +15,8 @@
         display: flex;
 
         .avt_image {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
 
             border-radius: 50%;
 
@@ -28,20 +26,34 @@
         }
 
         .avt_name {
-            height: 60px;
+            height: 50px;
             display: flex;
             align-items: center;
             margin-left: 25px;
 
             .avt_name_username {
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: bold;
             }
 
             .avt_name_name {
-                font-size: 20px;
+                font-size: 18px;
                 color: #8e8e8e;
             }
         }
+    }
+}
+
+.nav {
+    position: fixed;
+    margin-top: 97vh;
+}
+
+@media screen and (min-width: 320px) {
+    .main {
+        width: 100% !important;
+    }
+    .post {
+        width: 100% !important;
     }
 }

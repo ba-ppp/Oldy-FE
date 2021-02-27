@@ -21,57 +21,51 @@ const Post: React.FC = () => {
         setLike(!like);
     };
     return (
-        <div className={cls.home_main}>
-            <div className={cls.home_post}>
-                <header className={cls.home_post_header}>
-                    <div
-                        className={cls.header_avt}
-                        style={{ backgroundImage: `url(${avtHeader})` }}
-                    />
-                    <div className={cls.header_username}>{userName}</div>
-                </header>
+        <div className={cls.home_post}>
+            <header className={cls.home_post_header}>
                 <div
-                    className={cls.home_post_image}
-                    style={{ backgroundImage: `url(${postImage})` }}
+                    className={cls.header_avt}
+                    style={{ backgroundImage: `url(${avtHeader})` }}
                 />
-                <div className={cls.home_post_comment}>
-                    <div className={cls.home_post_comment_react}>
-                        {!like && (
-                            <Heart
-                                className={cls.home_post_comment_icon}
-                                height={25}
-                                width={25}
-                                onClick={onClickLike}
-                            />
-                        )}
-                        {like && (
-                            <HeartRed
-                                className={cls.home_post_comment_icon}
-                                height={25}
-                                width={25}
-                                onClick={onClickLike}
-                            />
-                        )}
-                        <Comment
+                <div className={cls.header_username}>{userName}</div>
+            </header>
+            <div
+                className={cls.home_post_image}
+                style={{ backgroundImage: `url(${postImage})` }}
+            />
+            <div className={cls.home_post_comment}>
+                <div className={cls.home_post_comment_react}>
+                    {!like && (
+                        <Heart
                             className={cls.home_post_comment_icon}
                             height={25}
                             width={25}
+                            onClick={onClickLike}
                         />
-                        <Share
+                    )}
+                    {like && (
+                        <HeartRed
                             className={cls.home_post_comment_icon}
                             height={25}
                             width={25}
+                            onClick={onClickLike}
                         />
-                    </div>
-                    <div>
-                        <span className={cls.home_post_react}>{likeCount}</span>
-                        <span className={cls.home_post_react}>
-                            {commentCount}
-                        </span>
-                        <span className={cls.home_post_react}>
-                            {shareCount}
-                        </span>
-                    </div>
+                    )}
+                    <Comment
+                        className={cls.home_post_comment_icon}
+                        height={25}
+                        width={25}
+                    />
+                    <Share
+                        className={cls.home_post_comment_icon}
+                        height={25}
+                        width={25}
+                    />
+                </div>
+                <div>
+                    <span className={cls.home_post_react}>{likeCount}</span>
+                    <span className={cls.home_post_react}>{commentCount}</span>
+                    <span className={cls.home_post_react}>{shareCount}</span>
                 </div>
             </div>
         </div>
