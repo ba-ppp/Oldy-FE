@@ -1,9 +1,8 @@
 import { Button, Form, Input } from 'antd';
-import { CodeReducer } from 'app/slices/codeSlice';
+import { useSelector } from 'app/reducers/type';
 import logo from 'assets/images/logo/logo_192x192_w.jpg';
 import openNotificationWithIcon from 'helpers/design/notification';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import cls from './_forget.module.scss';
 
@@ -11,12 +10,13 @@ const InputCode: React.FC = () => {
     const [form] = Form.useForm();
     const [isSuccess, setisSuccess] = useState(false);
     // get code from code's reducer
-    const codeState = useSelector((state: CodeReducer) => state);
-    const code = codeState.codeOTP;
-    const { token } = codeState;
+    const state = useSelector((state) => state.code);
+    const code = state.codeOTP;
+    const token = state.token;
     const onFinish = (value: any) => {
         // if code correct
         if (value.code.toString() === code.toString()) {
+            // add token and redirect
             window.localStorage.setItem('token', token);
             setisSuccess(true);
         } else {

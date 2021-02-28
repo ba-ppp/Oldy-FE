@@ -6,6 +6,4 @@ const rootReducer = {
     profile: userProfileSlice,
 };
 
-export type Reducer = typeof rootReducer;
-
 export default rootReducer;

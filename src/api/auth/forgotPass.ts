@@ -2,20 +2,28 @@ import Environment from 'api/env';
 import axios from 'axios';
 
 type Props = {
-    email: string;
+    account: string;
 };
 
 export type ServerData = {
     code: string;
+    errorCode: number;
+    token: string;
 };
+
+interface PromiseResponse {
+    code?: string;
+    token?: string;
+    error?: string;
+}
 
 type AxiosResponse = {
     data: ServerData;
 };
 
-const forgot = ({ email }: Props): Promise<ServerData> => {
+const forgot = ({ account }: Props): Promise<PromiseResponse> => {
     const data = {
-        email,
+        account,
     };
     const url = Environment.getForgotEndPoint();
 
@@ -24,10 +32,15 @@ const forgot = ({ email }: Props): Promise<ServerData> => {
             .post(url, data)
             .then((response: AxiosResponse) => {
                 const dataResponse = response.data;
-                resolve(dataResponse);
-                return null;
+                if (dataResponse.errorCode === 0) {
+                    resolve({
+                        code: dataResponse.code,
+                        token: dataResponse.token,
+                    });
+                }
+                resolve({ error: 'Server has downed' });
             })
-            .catch((e: unknown) => {
+            .catch((e: any) => {
                 reject(e);
             });
     });
