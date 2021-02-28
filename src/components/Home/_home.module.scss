@@ -44,17 +44,50 @@
     }
 }
 
-.nav {
-    position: fixed;
-    margin-top: 97vh;
-}
+@media screen and (max-device-width: 480px) {
+    .footer {
+        position: fixed;
+        margin-top: 93vh;
 
-@media screen and (min-width: 320px) {
+        width: 100%;
+        height: 56px;
+
+        background-color: #fff;
+
+        border-top: 1px solid #eae3e3;
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            width: 90%;
+            height: 100%;
+
+            margin: auto;
+
+            .nav_icon_avt {
+                width: 30px;
+                height: 30px;
+
+                border-radius: 50%;
+
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+        }
+    }
     .main {
         width: 100% !important;
     }
     .post {
         width: 100% !important;
         margin-top: 70px !important;
+    }
+}
+
+@media screen and (max-device-width: 320px) {
+    .footer {
+        margin-top: 91vh !important;
     }
 }
