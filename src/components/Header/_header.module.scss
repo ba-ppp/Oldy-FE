@@ -9,12 +9,16 @@
     .header_main {
         display: flex;
 
-        max-width: 60%;
+        width: 60%;
         margin: auto;
         justify-content: space-between;
 
         .header_logo {
             flex-grow: 4;
+
+            .header_image {
+                height: 103px;
+            }
         }
 
         .header_input {
@@ -37,6 +41,10 @@
                 opacity: 1;
                 text-align: center;
             }
+        }
+
+        .mess_icon {
+            display: none;
         }
 
         .icon {
@@ -67,7 +75,34 @@
 }
 
 @media screen and (max-width: 487px) {
+    .header_main {
+        width: 100% !important;
+    }
+
+    .header_image {
+        height: 50px !important;
+    }
+
+    .header_logo {
+        display: flex;
+        justify-content: flex-end;
+
+        width: 65% !important;
+    }
+
     .header_input {
+        display: none !important;
+    }
+
+    .mess_icon {
+        display: flex !important;
+        justify-content: flex-end;
+        width: 50% !important;
+        align-items: center;
+        margin-right: 8px;
+    }
+
+    .icon {
         display: none !important;
     }
 }

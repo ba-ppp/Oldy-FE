@@ -3,6 +3,7 @@ import logo from 'assets/images/logo/logo_192x192_w.jpg';
 import { ReactComponent as HomeIcon } from 'assets/images/home/home.svg';
 import { ReactComponent as HomeBlackIcon } from 'assets/images/home/home_black.svg';
 import { ReactComponent as MessIcon } from 'assets/images/home/mess.svg';
+import { ReactComponent as Messenger } from 'assets/images/home/messenger.svg';
 import { ReactComponent as MessBlackIcon } from 'assets/images/home/mess_black.svg';
 import { ReactComponent as ExploreIcon } from 'assets/images/home/explore.svg';
 import { ReactComponent as ExploreBlackIcon } from 'assets/images/home/explore_black.svg';
@@ -35,7 +36,7 @@ const Header: React.FC = () => {
         <div className={cls.header}>
             <div className={cls.header_main}>
                 <div className={cls.header_logo}>
-                    <img src={logo} height={103} />
+                    <img className={cls.header_image} src={logo} />
                 </div>
 
                 <div className={cls.header_input}>
@@ -43,6 +44,15 @@ const Header: React.FC = () => {
                         className={cls.input}
                         placeholder="&#xF002; Tìm kiếm"
                         style={{ fontFamily: 'Arial, FontAwesome' }}
+                    />
+                </div>
+                {/* for mobile */}
+                <div className={cls.mess_icon}>
+                    <Messenger
+                        className={cls.mess}
+                        onClick={messOnClick}
+                        height={25}
+                        width={22}
                     />
                 </div>
 
