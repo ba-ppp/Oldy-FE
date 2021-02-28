@@ -17,6 +17,9 @@ export default {
     getLoginEndpoint(): string {
         return `${this.HOST_URL}/api/login`;
     },
+    getRefreshTokenPoint(): string {
+        return `${this.HOST_URL}/api/login/refreshToken`;
+    },
     getRegistrationEndPoint(): string {
         return `${this.HOST_URL}/api/registration`;
     },
@@ -30,6 +33,6 @@ export default {
         return `${this.HOST_URL}/api/password/forget`;
     },
     getChangePasswordEndPoint(): string {
-        return `${this.HOST_URL}/api/profile/password`;
+        return `${this.HOST_URL}/api/password/change-password`;
     },
 };
