@@ -5,6 +5,7 @@ export type UserProfileReducer = {
     email: string;
     name: string;
     username: string;
+    avt: string;
     loading: boolean;
     error: string;
 };
@@ -43,16 +44,18 @@ const userProfileSlice = createSlice({
         email: '',
         name: '',
         username: '',
+        avt: '',
         loading: false,
         error: '',
     } as UserProfileReducer,
     reducers: {
         addProfile: (state: UserProfileReducer, action) => {
-            const { email, name, username } = action.payload;
+            const { email, name, username, avt } = action.payload;
             const newState = state;
             newState.email = email;
             newState.name = name;
             newState.username = username;
+            newState.avt = avt;
             return newState;
         },
     },

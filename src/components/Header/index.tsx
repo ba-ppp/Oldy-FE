@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
-import logo from 'assets/images/logo/logo_192x192_w.jpg';
+import { ReactComponent as ExploreIcon } from 'assets/images/home/explore.svg';
+import { ReactComponent as ExploreBlackIcon } from 'assets/images/home/explore_black.svg';
+import { ReactComponent as HeartIcon } from 'assets/images/home/heart.svg';
+import { ReactComponent as HeartBlackIcon } from 'assets/images/home/heart_black.svg';
 import { ReactComponent as HomeIcon } from 'assets/images/home/home.svg';
 import { ReactComponent as HomeBlackIcon } from 'assets/images/home/home_black.svg';
 import { ReactComponent as MessIcon } from 'assets/images/home/mess.svg';
 import { ReactComponent as Messenger } from 'assets/images/home/messenger.svg';
 import { ReactComponent as MessBlackIcon } from 'assets/images/home/mess_black.svg';
-import { ReactComponent as ExploreIcon } from 'assets/images/home/explore.svg';
-import { ReactComponent as ExploreBlackIcon } from 'assets/images/home/explore_black.svg';
-import { ReactComponent as HeartIcon } from 'assets/images/home/heart.svg';
-import { ReactComponent as HeartBlackIcon } from 'assets/images/home/heart_black.svg';
+import logo from 'assets/images/logo/logo_192x192_w.jpg';
+import React, { useState } from 'react';
 import cls from './_header.module.scss';
+import PropTypes from 'prop-types';
 
-const Header: React.FC = () => {
+type Props = {
+    avt: string;
+};
+
+const Header: React.FC<Props> = (props) => {
     const [homeClick, setHomeClick] = useState(false);
     const [messClick, setMessClick] = useState(false);
     const [exploreClick, setExploreClick] = useState(false);
     const [heartClick, setHeartClick] = useState(false);
-
-    const avt = 'https://loremflickr.com/320/240/dog';
 
     const homeOnClick = () => {
         setHomeClick(!homeClick);
@@ -123,12 +126,15 @@ const Header: React.FC = () => {
                     )}
                     <div
                         className={cls.icon_avt}
-                        style={{ backgroundImage: `url(${avt})` }}
+                        style={{ backgroundImage: `url(${props.avt})` }}
                     />
                 </nav>
             </div>
         </div>
     );
+};
+Header.propTypes = {
+    avt: PropTypes.string.isRequired,
 };
 
 export default Header;

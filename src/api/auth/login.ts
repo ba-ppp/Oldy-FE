@@ -1,4 +1,4 @@
-import Environment from 'api/env';
+import Environment from 'api/env/auth';
 import axios from 'axios';
 
 type Props = {
@@ -12,6 +12,7 @@ export interface PromiseResponse {
     username?: string;
     email?: string;
     error?: string;
+    avt?: string;
 }
 
 type ServerData = {
@@ -19,6 +20,7 @@ type ServerData = {
     errorCode: number;
     name: string;
     email: string;
+    avt: string;
     username: string;
     error: string;
 };
@@ -27,10 +29,7 @@ type AxiosResponse = {
     data: ServerData;
 };
 
-const login = async ({
-    username,
-    password,
-}: Props): Promise<PromiseResponse> => {
+const login = ({ username, password }: Props): Promise<PromiseResponse> => {
     const data = {
         username,
         password,
@@ -49,6 +48,7 @@ const login = async ({
                         name: dataResponse.name,
                         username: dataResponse.username,
                         token: dataResponse.token,
+                        avt: dataResponse.avt,
                     };
                     resolve(profile);
                 }
