@@ -15,6 +15,16 @@ const Home: React.FC = () => {
             <Header />
             <div className={cls.main}>
                 <div className={cls.post}>
+                    <div className={cls.create_post}>
+                        <div
+                            className={cls.create_post_avt}
+                            style={{ backgroundImage: `url(${backGround})` }}
+                        />
+                        <input
+                            className={cls.create_post_input}
+                            placeholder="Bạn đang nghĩ gì vậy?"
+                        />
+                    </div>
                     <Post />
                     <Post />
                 </div>
