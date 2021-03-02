@@ -4,16 +4,26 @@ import { ReactComponent as HeartRed } from 'assets/images/home/heart_red.svg';
 import { ReactComponent as Share } from 'assets/images/home/share.svg';
 import React, { useState } from 'react';
 import cls from './_userPost.module.scss';
+import PropTypes from 'prop-types';
 
-const Post: React.FC = () => {
-    const postImage = 'https://loremflickr.com/650/614';
-    const avtHeader = 'https://loremflickr.com/320/240';
+type Props = {
+    postImage?: string;
+    avtHeader: string;
+    userName: string;
+    likeCount: number;
+    commentCount: number;
+    shareCount: number;
+};
 
-    const userName = 'pebeoooo';
+const Post: React.FC<Props> = (props) => {
+    const postImage = props.postImage;
+    const avtHeader = props.avtHeader;
 
-    const likeCount = 5;
-    const commentCount = 10;
-    const shareCount = 2;
+    const userName = props.userName;
+
+    const likeCount = props.likeCount;
+    const commentCount = props.commentCount;
+    const shareCount = props.shareCount;
 
     const [like, setLike] = useState(false);
 
@@ -70,6 +80,15 @@ const Post: React.FC = () => {
             </div>
         </div>
     );
+};
+
+Post.propTypes = {
+    postImage: PropTypes.string,
+    avtHeader: PropTypes.string.isRequired,
+    userName: PropTypes.string.isRequired,
+    likeCount: PropTypes.number.isRequired,
+    commentCount: PropTypes.number.isRequired,
+    shareCount: PropTypes.number.isRequired,
 };
 
 export default Post;
