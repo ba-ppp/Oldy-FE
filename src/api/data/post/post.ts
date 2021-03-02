@@ -7,6 +7,8 @@ export interface PromiseResponse {
 
 type Post = {
     like: Array<string>;
+    comment?: string | null;
+    share: Array<string>;
     id: string;
     userId: string;
     caption: string;
@@ -18,10 +20,10 @@ type UserPost = {
     avt: string;
 };
 
-type ArrayPost = {
+export interface ArrayPost {
     post: Post;
     user: UserPost;
-};
+}
 
 type ServerData = {
     errorCode: number;

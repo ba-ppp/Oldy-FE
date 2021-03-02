@@ -1,25 +1,25 @@
 import Header from 'components/Header';
 import React, { useEffect, useState } from 'react';
 import cls from './_home.module.scss';
-// import Post from './Post';
+import Post from './Post';
 import { ReactComponent as HomeIcon } from 'assets/images/home/home.svg';
 import { ReactComponent as FindIcon } from 'assets/images/home/find.svg';
 import { ReactComponent as AddIcon } from 'assets/images/home/add.svg';
 import { ReactComponent as HeartIcon } from 'assets/images/home/heart.svg';
 import { useSelector } from 'app/reducers/type';
-import getPost from 'api/data/post/post';
-import { PromiseResponse } from 'api/auth/refreshToken';
+import getPost, { ArrayPost } from 'api/data/post/post';
+import { PromiseResponse } from 'api/data/post/post';
 
 const Home: React.FC = () => {
     const state = useSelector((state) => state.profile);
     const avt = state.avt;
-    const [post, setPost] = useState<PromiseResponse | any>(null);
+    const [posts, setPosts] = useState<PromiseResponse | any>(null);
 
     useEffect(() => {
         async function fetchData() {
             const data = await getPost();
-            setPost(data);
-            console.log(data);
+            setPosts(data.posts);
+            console.log(data.posts);
         }
         fetchData();
     }, []);
@@ -38,9 +38,31 @@ const Home: React.FC = () => {
                             placeholder="Bạn đang nghĩ gì vậy?"
                         />
                     </div>
-                    {/* {arr.map(function (i, key) {
-                        return <Post  key={key} />;
-                    })} */}
+                    {posts &&
+                        posts.map(function (post: ArrayPost, key: number) {
+                            return (
+                                <Post
+                                    avtHeader={post.user.avt}
+                                    likeCount={
+                                        post.post.like
+                                            ? post.post.like.length
+                                            : 0
+                                    }
+                                    userName={post.user.username}
+                                    commentCount={
+                                        post.post.comment
+                                            ? post.post.comment.length
+                                            : 0
+                                    }
+                                    shareCount={
+                                        post.post.share
+                                            ? post.post.share.length
+                                            : 0
+                                    }
+                                    key={key}
+                                />
+                            );
+                        })}
                 </div>
                 <div className={cls.footer}>
                     <div className={cls.nav}>
