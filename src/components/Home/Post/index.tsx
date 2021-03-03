@@ -5,8 +5,11 @@ import { ReactComponent as Share } from 'assets/images/home/share.svg';
 import React, { useState } from 'react';
 import cls from './_userPost.module.scss';
 import PropTypes from 'prop-types';
+import { useSelector } from 'app/reducers/type';
+import likePost from 'api/data/post/likePost';
 
 type Props = {
+    postId: string;
     postImage?: string;
     avtHeader: string;
     userName: string;
@@ -16,7 +19,12 @@ type Props = {
 };
 
 const Post: React.FC<Props> = (props) => {
+    const state = useSelector((state) => state.profile);
+    const userId = state.id;
+
+    const postId = props.postId;
     const postImage = props.postImage;
+
     const avtHeader = props.avtHeader;
 
     const userName = props.userName;
@@ -30,10 +38,12 @@ const Post: React.FC<Props> = (props) => {
     const onClickLike = () => {
         setLike(!like);
         setLikeCount(likeCount + 1);
+        likePost({ userId, postId });
     };
     const onClickDisLike = () => {
         setLike(!like);
         setLikeCount(likeCount - 1);
+        likePost({ userId, postId });
     };
 
     return (
@@ -114,6 +124,7 @@ Post.propTypes = {
     likeCount: PropTypes.number.isRequired,
     commentCount: PropTypes.number.isRequired,
     shareCount: PropTypes.number.isRequired,
+    postId: PropTypes.string.isRequired,
 };
 
 export default Post;

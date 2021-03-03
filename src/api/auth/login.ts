@@ -7,6 +7,7 @@ type Props = {
 };
 
 export interface PromiseResponse {
+    id?: string;
     token?: string;
     name?: string;
     username?: string;
@@ -16,6 +17,7 @@ export interface PromiseResponse {
 }
 
 type ServerData = {
+    id: string;
     token: string;
     errorCode: number;
     name: string;
@@ -44,6 +46,7 @@ const login = ({ username, password }: Props): Promise<PromiseResponse> => {
                 const dataResponse = response.data;
                 if (dataResponse.errorCode === 0) {
                     const profile = {
+                        id: dataResponse.id,
                         email: dataResponse.email,
                         name: dataResponse.name,
                         username: dataResponse.username,
