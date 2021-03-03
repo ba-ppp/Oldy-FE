@@ -43,6 +43,7 @@ const Home: React.FC = () => {
                             return (
                                 <Post
                                     avtHeader={post.user.avt}
+                                    postImage={post.post.image}
                                     likeCount={
                                         post.post.like
                                             ? post.post.like.length

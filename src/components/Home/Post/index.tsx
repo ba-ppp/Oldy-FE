@@ -22,8 +22,11 @@ const Post: React.FC<Props> = (props) => {
     const userName = props.userName;
 
     const likeCount = props.likeCount;
+    const likeStyle = likeCount / 10;
     const commentCount = props.commentCount;
+    const commentStyle = commentCount / 10;
     const shareCount = props.shareCount;
+    const shareStyle = shareCount / 10;
 
     const [like, setLike] = useState(false);
 
@@ -51,6 +54,7 @@ const Post: React.FC<Props> = (props) => {
                             height={25}
                             width={25}
                             onClick={onClickLike}
+                            style={{ marginRight: 15 + likeStyle }}
                         />
                     )}
                     {like && (
@@ -59,23 +63,41 @@ const Post: React.FC<Props> = (props) => {
                             height={25}
                             width={25}
                             onClick={onClickLike}
+                            style={{ marginRight: 15 + likeStyle }}
                         />
                     )}
                     <Comment
                         className={cls.home_post_comment_icon}
                         height={25}
                         width={25}
+                        style={{ marginRight: 15 + commentStyle }}
                     />
                     <Share
                         className={cls.home_post_comment_icon}
                         height={25}
                         width={25}
+                        style={{ marginRight: shareStyle + 15 }}
                     />
                 </div>
                 <div>
-                    <span className={cls.home_post_react}>{likeCount}</span>
-                    <span className={cls.home_post_react}>{commentCount}</span>
-                    <span className={cls.home_post_react}>{shareCount}</span>
+                    <span
+                        className={cls.home_post_react}
+                        style={{ marginRight: 23 }}
+                    >
+                        {likeCount}
+                    </span>
+                    <span
+                        className={cls.home_post_react}
+                        style={{ marginRight: 23 }}
+                    >
+                        {commentCount}
+                    </span>
+                    <span
+                        className={cls.home_post_react}
+                        style={{ marginRight: 23 }}
+                    >
+                        {shareCount}
+                    </span>
                 </div>
             </div>
         </div>
