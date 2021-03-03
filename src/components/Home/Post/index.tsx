@@ -21,18 +21,21 @@ const Post: React.FC<Props> = (props) => {
 
     const userName = props.userName;
 
-    const likeCount = props.likeCount;
-    const likeStyle = likeCount / 10;
     const commentCount = props.commentCount;
-    const commentStyle = commentCount / 10;
     const shareCount = props.shareCount;
-    const shareStyle = shareCount / 10;
 
     const [like, setLike] = useState(false);
+    const [likeCount, setLikeCount] = useState(props.likeCount);
 
     const onClickLike = () => {
         setLike(!like);
+        setLikeCount(likeCount + 1);
     };
+    const onClickDisLike = () => {
+        setLike(!like);
+        setLikeCount(likeCount - 1);
+    };
+
     return (
         <div className={cls.home_post}>
             <header className={cls.home_post_header}>
@@ -54,7 +57,7 @@ const Post: React.FC<Props> = (props) => {
                             height={25}
                             width={25}
                             onClick={onClickLike}
-                            style={{ marginRight: 15 + likeStyle }}
+                            style={{ marginRight: 15 }}
                         />
                     )}
                     {like && (
@@ -62,21 +65,21 @@ const Post: React.FC<Props> = (props) => {
                             className={cls.home_post_comment_icon}
                             height={25}
                             width={25}
-                            onClick={onClickLike}
-                            style={{ marginRight: 15 + likeStyle }}
+                            onClick={onClickDisLike}
+                            style={{ marginRight: 15 }}
                         />
                     )}
                     <Comment
                         className={cls.home_post_comment_icon}
                         height={25}
                         width={25}
-                        style={{ marginRight: 15 + commentStyle }}
+                        style={{ marginRight: 15 }}
                     />
                     <Share
                         className={cls.home_post_comment_icon}
                         height={25}
                         width={25}
-                        style={{ marginRight: shareStyle + 15 }}
+                        style={{ marginRight: 15 }}
                     />
                 </div>
                 <div>
