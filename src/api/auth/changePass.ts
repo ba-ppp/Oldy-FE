@@ -1,4 +1,4 @@
-import Environment from 'api/env';
+import Environment from 'api/env/auth';
 import axios from 'axios';
 
 type Props = {

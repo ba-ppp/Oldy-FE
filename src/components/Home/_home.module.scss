@@ -92,6 +92,18 @@
     }
 }
 
+@media screen and (max-width: 1023px) {
+    .create_post {
+        width: 500px !important;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .create_post {
+        width: 400px !important;
+    }
+}
+
 @media screen and (max-device-width: 480px) {
     .create_post {
         display: none !important;
