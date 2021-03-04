@@ -42,11 +42,12 @@ const Home: React.FC = () => {
                         posts.map(function (post: ArrayPost, key: number) {
                             return (
                                 <Post
+                                    postId={post.post._id}
                                     avtHeader={post.user.avt}
                                     postImage={post.post.image}
                                     likeCount={
-                                        post.post.like
-                                            ? post.post.like.length
+                                        post.post.likes
+                                            ? post.post.likes.length
                                             : 0
                                     }
                                     userName={post.user.username}

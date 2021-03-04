@@ -17,4 +17,7 @@ export default {
     getPostpoint(): string {
         return `${this.HOST_URL}/api/post`;
     },
+    getLikePostPoint(): string {
+        return `${this.HOST_URL}/api/post/like`;
+    },
 };

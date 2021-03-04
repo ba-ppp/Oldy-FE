@@ -5,8 +5,11 @@ import { ReactComponent as Share } from 'assets/images/home/share.svg';
 import React, { useState } from 'react';
 import cls from './_userPost.module.scss';
 import PropTypes from 'prop-types';
+import { useSelector } from 'app/reducers/type';
+import likePost from 'api/data/post/likePost';
 
 type Props = {
+    postId: string;
     postImage?: string;
     avtHeader: string;
     userName: string;
@@ -16,23 +19,33 @@ type Props = {
 };
 
 const Post: React.FC<Props> = (props) => {
+    const state = useSelector((state) => state.profile);
+    const userId = state.id;
+
+    const postId = props.postId;
     const postImage = props.postImage;
+
     const avtHeader = props.avtHeader;
 
     const userName = props.userName;
 
-    const likeCount = props.likeCount;
-    const likeStyle = likeCount / 10;
     const commentCount = props.commentCount;
-    const commentStyle = commentCount / 10;
     const shareCount = props.shareCount;
-    const shareStyle = shareCount / 10;
 
     const [like, setLike] = useState(false);
+    const [likeCount, setLikeCount] = useState(props.likeCount);
 
     const onClickLike = () => {
         setLike(!like);
+        setLikeCount(likeCount + 1);
+        likePost({ userId, postId });
     };
+    const onClickDisLike = () => {
+        setLike(!like);
+        setLikeCount(likeCount - 1);
+        likePost({ userId, postId });
+    };
+
     return (
         <div className={cls.home_post}>
             <header className={cls.home_post_header}>
@@ -54,7 +67,7 @@ const Post: React.FC<Props> = (props) => {
                             height={25}
                             width={25}
                             onClick={onClickLike}
-                            style={{ marginRight: 15 + likeStyle }}
+                            style={{ marginRight: 15 }}
                         />
                     )}
                     {like && (
@@ -62,21 +75,21 @@ const Post: React.FC<Props> = (props) => {
                             className={cls.home_post_comment_icon}
                             height={25}
                             width={25}
-                            onClick={onClickLike}
-                            style={{ marginRight: 15 + likeStyle }}
+                            onClick={onClickDisLike}
+                            style={{ marginRight: 15 }}
                         />
                     )}
                     <Comment
                         className={cls.home_post_comment_icon}
                         height={25}
                         width={25}
-                        style={{ marginRight: 15 + commentStyle }}
+                        style={{ marginRight: 15 }}
                     />
                     <Share
                         className={cls.home_post_comment_icon}
                         height={25}
                         width={25}
-                        style={{ marginRight: shareStyle + 15 }}
+                        style={{ marginRight: 15 }}
                     />
                 </div>
                 <div>
@@ -111,6 +124,7 @@ Post.propTypes = {
     likeCount: PropTypes.number.isRequired,
     commentCount: PropTypes.number.isRequired,
     shareCount: PropTypes.number.isRequired,
+    postId: PropTypes.string.isRequired,
 };
 
 export default Post;

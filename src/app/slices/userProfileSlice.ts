@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { login, register } from 'api/auth';
 
 export type UserProfileReducer = {
+    id: string;
     email: string;
     name: string;
     username: string;
@@ -41,6 +42,7 @@ export const getRegister: any = createAsyncThunk(
 const userProfileSlice = createSlice({
     name: 'profile',
     initialState: {
+        id: '',
         email: '',
         name: '',
         username: '',
@@ -50,8 +52,9 @@ const userProfileSlice = createSlice({
     } as UserProfileReducer,
     reducers: {
         addProfile: (state: UserProfileReducer, action) => {
-            const { email, name, username, avt } = action.payload;
+            const { email, name, username, avt, id } = action.payload;
             const newState = state;
+            newState.id = id;
             newState.email = email;
             newState.name = name;
             newState.username = username;

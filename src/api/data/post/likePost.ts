@@ -2,49 +2,36 @@ import Environment from 'api/env/post';
 import axios from 'axios';
 
 export interface PromiseResponse {
-    posts: Array<ArrayPost>;
+    error: string;
 }
 
-type Post = {
-    likes: Array<string>;
-    comment?: string | null;
-    share: Array<string>;
-    _id: string;
+type Props = {
     userId: string;
-    caption: string;
-    image: string;
+    postId: string;
 };
-
-type UserPost = {
-    username: string;
-    avt: string;
-};
-
-export interface ArrayPost {
-    post: Post;
-    user: UserPost;
-}
 
 type ServerData = {
     errorCode: number;
-    posts: Array<ArrayPost>;
 };
 
 type AxiosResponse = {
     data: ServerData;
 };
 
-const getPost = (): Promise<PromiseResponse> => {
-    const url = Environment.getPostpoint();
-
+const likePost = ({ userId, postId }: Props): Promise<PromiseResponse> => {
+    const url = Environment.getLikePostPoint();
+    const data = {
+        userId,
+        postId,
+    };
     return new Promise((resolve, reject) => {
         axios
-            .get(url)
+            .post(url, data)
             .then((response: AxiosResponse) => {
                 const dataResponse = response.data;
                 if (dataResponse.errorCode === 0) {
                     const result = {
-                        posts: dataResponse.posts,
+                        error: '',
                     };
                     resolve(result);
                 }
@@ -55,4 +42,4 @@ const getPost = (): Promise<PromiseResponse> => {
     });
 };
 
-export default getPost;
+export default likePost;

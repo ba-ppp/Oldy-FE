@@ -23,37 +23,40 @@ const PrivateRoute: React.FC<Props> = (props) => {
 
     const token = window.localStorage.getItem('token'); // set token at here
     useEffect(() => {
-        if (token) {
-            const decode: Decode | any = jwt.decode(token);
-            if (!decode) {
-                window.localStorage.removeItem('token');
-                setcheckToken(true);
-                return;
-            }
-            const { exp } = decode;
+        function check() {
+            if (token) {
+                const decode: Decode | any = jwt.decode(token);
+                if (!decode) {
+                    window.localStorage.removeItem('token');
+                    setcheckToken(true);
+                    return;
+                }
+                const { exp } = decode;
 
-            const now = Math.floor(Date.now() / 1000);
+                const now = Math.floor(Date.now() / 1000);
 
-            // if expired
-            if (exp - now <= 0) {
-                // get new token by refreshtoken
-                const data = {
-                    id: decode._id,
-                };
-                refreshToken(data).then((value) => {
-                    if (value.error || !value.token) {
-                        // error when get token
-                        console.log(value);
-                        window.localStorage.removeItem('token');
-                        setcheckToken(true);
-                        return;
-                    } else {
-                        window.localStorage.setItem('token', value.token);
-                    }
-                });
+                // if expired
+                if (exp - now <= 0) {
+                    // get new token by refreshtoken
+                    const data = {
+                        id: decode._id,
+                    };
+                    refreshToken(data).then((value) => {
+                        if (value.error || !value.token) {
+                            // error when get token
+                            console.log(value);
+                            window.localStorage.removeItem('token');
+                            setcheckToken(true);
+                            return;
+                        } else {
+                            window.localStorage.setItem('token', value.token);
+                        }
+                    });
+                }
             }
         }
-    }, [token]);
+        check();
+    }, []);
 
     return (
         <Route
