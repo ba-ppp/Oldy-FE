@@ -1,12 +1,17 @@
 import Environment from 'api/env/post';
 import axios from 'axios';
 
+type Props = {
+    userId: string;
+};
+
 export interface PromiseResponse {
     posts: Array<ArrayPost>;
 }
 
 type Post = {
     likes: Array<string>;
+    liked: boolean;
     comment?: string | null;
     share: Array<string>;
     _id: string;
@@ -34,12 +39,13 @@ type AxiosResponse = {
     data: ServerData;
 };
 
-const getPost = (): Promise<PromiseResponse> => {
+const getPost = ({ userId }: Props): Promise<PromiseResponse> => {
+    const data = { userId };
     const url = Environment.getPostpoint();
 
     return new Promise((resolve, reject) => {
         axios
-            .get(url)
+            .post(url, data)
             .then((response: AxiosResponse) => {
                 const dataResponse = response.data;
                 if (dataResponse.errorCode === 0) {
