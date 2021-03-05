@@ -14,6 +14,7 @@ type Props = {
     avtHeader: string;
     userName: string;
     likeCount: number;
+    liked: boolean;
     commentCount: number;
     shareCount: number;
 };
@@ -32,7 +33,7 @@ const Post: React.FC<Props> = (props) => {
     const commentCount = props.commentCount;
     const shareCount = props.shareCount;
 
-    const [like, setLike] = useState(false);
+    const [like, setLike] = useState(props.liked);
     const [likeCount, setLikeCount] = useState(props.likeCount);
 
     const onClickLike = () => {
@@ -122,6 +123,7 @@ Post.propTypes = {
     avtHeader: PropTypes.string.isRequired,
     userName: PropTypes.string.isRequired,
     likeCount: PropTypes.number.isRequired,
+    liked: PropTypes.bool.isRequired,
     commentCount: PropTypes.number.isRequired,
     shareCount: PropTypes.number.isRequired,
     postId: PropTypes.string.isRequired,

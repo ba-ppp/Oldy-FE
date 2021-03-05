@@ -10,7 +10,9 @@ type Props = {
 
 type ServerData = {
     errorCode: number;
+    avt: string;
     username: string;
+    id: string;
     email: string;
     name: string;
     token: string;
@@ -23,9 +25,11 @@ type AxiosResponse = {
 
 interface PromiseResponse {
     token?: string;
+    id?: string;
     name?: string;
     username?: string;
     email?: string;
+    avt?: string;
     error?: string;
 }
 
@@ -56,6 +60,7 @@ const register = ({
                         name: dataResponse.name,
                         email: dataResponse.email,
                         token: dataResponse.token,
+                        avt: dataResponse.avt,
                     };
                     resolve(profile);
                 }

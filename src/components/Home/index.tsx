@@ -13,13 +13,13 @@ import { PromiseResponse } from 'api/data/post/post';
 const Home: React.FC = () => {
     const state = useSelector((state) => state.profile);
     const avt = state.avt;
+    const userId = state.id;
     const [posts, setPosts] = useState<PromiseResponse | any>(null);
 
     useEffect(() => {
         async function fetchData() {
-            const data = await getPost();
+            const data = await getPost({ userId });
             setPosts(data.posts);
-            console.log(data.posts);
         }
         fetchData();
     }, []);
@@ -50,6 +50,7 @@ const Home: React.FC = () => {
                                             ? post.post.likes.length
                                             : 0
                                     }
+                                    liked={post.post.liked}
                                     userName={post.user.username}
                                     commentCount={
                                         post.post.comment
