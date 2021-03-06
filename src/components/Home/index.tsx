@@ -25,7 +25,13 @@ const Home: React.FC = () => {
     }, []);
     return (
         <div>
-            <Header avt={avt} />
+            <Header
+                avt={avt}
+                exploreClick={false}
+                heartClick={false}
+                homeClick={true}
+                messClick={false}
+            />
             <div className={cls.main}>
                 <div className={cls.post}>
                     <div className={cls.create_post}>

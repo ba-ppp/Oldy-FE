@@ -11,28 +11,45 @@ import logo from 'assets/images/logo/logo_192x192_w.jpg';
 import React, { useState } from 'react';
 import cls from './_header.module.scss';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 type Props = {
     avt: string;
+    homeClick: boolean;
+    messClick: boolean;
+    exploreClick: boolean;
+    heartClick: boolean;
 };
 
 const Header: React.FC<Props> = (props) => {
-    const [homeClick, setHomeClick] = useState(false);
-    const [messClick, setMessClick] = useState(false);
-    const [exploreClick, setExploreClick] = useState(false);
-    const [heartClick, setHeartClick] = useState(false);
+    const [homeClick, setHomeClick] = useState(props.homeClick);
+    const [messClick, setMessClick] = useState(props.messClick);
+    const [exploreClick, setExploreClick] = useState(props.exploreClick);
+    const [heartClick, setHeartClick] = useState(props.heartClick);
 
     const homeOnClick = () => {
-        setHomeClick(!homeClick);
+        setHomeClick(true);
+        setMessClick(false);
+        setExploreClick(false);
+        setHeartClick(false);
     };
     const messOnClick = () => {
-        setMessClick(!messClick);
+        setHomeClick(false);
+        setMessClick(true);
+        setExploreClick(false);
+        setHeartClick(false);
     };
     const exploreOnClick = () => {
-        setExploreClick(!exploreClick);
+        setHomeClick(false);
+        setMessClick(false);
+        setExploreClick(true);
+        setHeartClick(false);
     };
     const heartOnClick = () => {
-        setHeartClick(!heartClick);
+        setHomeClick(false);
+        setMessClick(false);
+        setExploreClick(false);
+        setHeartClick(true);
     };
 
     return (
@@ -124,7 +141,8 @@ const Header: React.FC<Props> = (props) => {
                             width={22}
                         />
                     )}
-                    <div
+                    <Link
+                        to="/profile"
                         className={cls.icon_avt}
                         style={{ backgroundImage: `url(${props.avt})` }}
                     />
@@ -135,6 +153,10 @@ const Header: React.FC<Props> = (props) => {
 };
 Header.propTypes = {
     avt: PropTypes.string.isRequired,
+    exploreClick: PropTypes.bool.isRequired,
+    heartClick: PropTypes.bool.isRequired,
+    homeClick: PropTypes.bool.isRequired,
+    messClick: PropTypes.bool.isRequired,
 };
 
 export default Header;
