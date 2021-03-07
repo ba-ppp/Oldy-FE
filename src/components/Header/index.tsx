@@ -19,6 +19,7 @@ type Props = {
     messClick: boolean;
     exploreClick: boolean;
     heartClick: boolean;
+    style?: any;
 };
 
 const Header: React.FC<Props> = (props) => {
@@ -53,7 +54,7 @@ const Header: React.FC<Props> = (props) => {
     };
 
     return (
-        <div className={cls.header}>
+        <div className={cls.header} style={props.style}>
             <div className={cls.header_main}>
                 <div className={cls.header_logo}>
                     <img className={cls.header_image} src={logo} />
@@ -157,6 +158,7 @@ Header.propTypes = {
     heartClick: PropTypes.bool.isRequired,
     homeClick: PropTypes.bool.isRequired,
     messClick: PropTypes.bool.isRequired,
+    style: PropTypes.any,
 };
 
 export default Header;

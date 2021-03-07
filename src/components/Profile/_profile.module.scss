@@ -1,0 +1,34 @@
+@use '../constants/scss/constant' as c;
+
+$width: 450px;
+
+body {
+    background-color: c.$background_color;
+}
+
+.main {
+    width: 70%;
+    height: 650px;
+    margin: auto;
+    background-color: #fff;
+    margin-top: 50px;
+    padding: 20px 20px 20px;
+
+    .compo {
+        display: flex;
+        width: 70%;
+        margin: auto;
+        margin-top: 20px;
+
+        .label {
+            width: 150px;
+            font-weight: bold;
+            text-align: right;
+            margin-right: 30px;
+        }
+
+        .input {
+            width: 50%;
+        }
+    }
+}
