@@ -2,6 +2,7 @@ import { useSelector } from 'app/reducers/type';
 import Header from 'components/Header';
 import cls from './_profile.module.scss';
 import React from 'react';
+import { Button } from 'antd';
 
 const Profile: React.FC = () => {
     const state = useSelector((state) => state.profile);
@@ -19,6 +20,18 @@ const Profile: React.FC = () => {
                 style={{ position: 'unset' }}
             />
             <div className={cls.main}>
+                <div className={cls.compo_avt}>
+                    <div className={cls.avt_width}>
+                        <div
+                            className={cls.avt}
+                            style={{ backgroundImage: `url(${avt})` }}
+                        />
+                    </div>
+                    <div className={cls.avt_change}>
+                        <div>{username}</div>
+                        <div>Thay đổi ảnh đại diện</div>
+                    </div>
+                </div>
                 <div className={cls.compo}>
                     <div className={cls.label}>Tên:&nbsp;</div>
                     <input className={cls.input} value={name} />
@@ -33,7 +46,18 @@ const Profile: React.FC = () => {
                 </div>
                 <div className={cls.compo}>
                     <div className={cls.label}>Số điện thoại:&nbsp;</div>
-                    <input placeholder="0123456789" />
+                    <input className={cls.input} value="0123456789" />
+                </div>
+                <div className={cls.button}>
+                    <aside className={cls.aside} />
+                    <Button
+                        className={cls.button_click}
+                        type="primary"
+                        htmlType="submit"
+                        disabled={false}
+                    >
+                        Gửi
+                    </Button>
                 </div>
             </div>
         </div>

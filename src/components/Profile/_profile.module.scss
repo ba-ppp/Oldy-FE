@@ -8,27 +8,70 @@ body {
 
 .main {
     width: 70%;
-    height: 650px;
+    height: 400px;
     margin: auto;
     background-color: #fff;
     margin-top: 50px;
     padding: 20px 20px 20px;
 
+    .compo_avt {
+        display: flex;
+        width: 70%;
+        margin: auto;
+
+        .avt_width {
+            width: 150px;
+            display: flex;
+            justify-content: flex-end;
+            margin-right: 40px;
+            .avt {
+                height: 50px;
+                width: 50px;
+                border: 1px solid black;
+                border-radius: 50%;
+
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+        }
+
+        .avt_change {
+            width: 60%;
+        }
+    }
+
     .compo {
         display: flex;
         width: 70%;
         margin: auto;
-        margin-top: 20px;
+        margin-top: 30px;
 
         .label {
             width: 150px;
             font-weight: bold;
             text-align: right;
-            margin-right: 30px;
+            margin-right: 40px;
         }
 
         .input {
             width: 50%;
+            border: 1px solid #cfcfcf;
+            padding-left: 15px;
+        }
+    }
+    .button {
+        display: flex;
+        width: 70%;
+        margin: auto;
+
+        .aside {
+            width: 150px;
+            margin-right: 40px;
+        }
+
+        .button_click {
+            margin-top: 30px;
         }
     }
 }
