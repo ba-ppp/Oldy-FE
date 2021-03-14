@@ -1,35 +1,17 @@
 import { Button } from 'antd';
+import { changeProfile } from 'api/profile';
 import { useSelector } from 'app/reducers/type';
 import Header from 'components/Header';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import cls from './_profile.module.scss';
-
+import openNotificationWithIcon from 'helpers/design/notification';
 type State = {
     name: string;
     username: string;
     email: string;
-    phone: string;
+    id: string;
 };
-
-// const validation = yup.object().shape({
-//     name: yup
-//         .string()
-//         .matches(/^[a-zA-Z\s]*$/, 'Vui lòng nhập tên hợp lệ')
-//         .required('Hãy nhập tên của bạn'),
-
-//     username: yup.string().min(3, 'Tên người dùng không hợp lệ').required(),
-
-//     email: yup
-//         .string()
-//         .email('Vui lòng nhập email hợp lệ')
-//         .required('Hãy nhập email hợp lệ'),
-
-//     password: yup
-//         .string()
-//         .min(6, 'Mật khẩu phải có độ dài lớn hơn 6')
-//         .required(),
-// });
 
 const Profile: React.FC = () => {
     // form
@@ -37,19 +19,16 @@ const Profile: React.FC = () => {
 
     const state = useSelector((state) => state.profile);
     const avt = state.avt;
+    const id = state.id;
 
     const [name, setName] = useState(state.name);
-    const [username, setUserName] = useState(state.username);
+    const [username] = useState(state.username);
     const [email, setEmail] = useState(state.email);
     const [phone, setPhone] = useState('0123456789');
 
     const onChangeName = (values: React.ChangeEvent<HTMLInputElement>) => {
         const value = values.target.value;
         setName(value);
-    };
-    const onChangeUserName = (values: React.ChangeEvent<HTMLInputElement>) => {
-        const value = values.target.value;
-        setUserName(value);
     };
     const onChangeEmail = (values: React.ChangeEvent<HTMLInputElement>) => {
         const value = values.target.value;
@@ -60,9 +39,18 @@ const Profile: React.FC = () => {
         setPhone(value);
     };
 
-    const onFinish = (values: State) => {
-        console.log(values);
-        console.log('hi');
+    const onFinish = async (values: State) => {
+        values.id = id;
+        const data = await changeProfile(values);
+        if (data.errorCode === 1) {
+            openNotificationWithIcon(
+                'warning',
+                'Không thành công',
+                data.message
+            );
+        } else {
+            openNotificationWithIcon('success', 'Thành công', '');
+        }
     };
 
     return (
@@ -102,10 +90,9 @@ const Profile: React.FC = () => {
                     <div className={cls.label}>Tên người dùng:&nbsp;</div>
                     <input
                         className={cls.input}
-                        onChange={onChangeUserName}
+                        disabled={true}
                         value={username}
                         name="username"
-                        ref={register}
                     />
                 </div>
                 <div className={cls.compo}>
