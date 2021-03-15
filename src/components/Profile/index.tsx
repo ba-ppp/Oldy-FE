@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import cls from './_profile.module.scss';
 import openNotificationWithIcon from 'helpers/design/notification';
+import { app } from 'firebaseConfig';
 type State = {
     name: string;
     username: string;
@@ -25,6 +26,8 @@ const Profile: React.FC = () => {
     const [username] = useState(state.username);
     const [email, setEmail] = useState(state.email);
     const [phone, setPhone] = useState('0123456789');
+    const [picture, setPicture] = useState<File | null>(null);
+    const [image, setImgData] = useState<ArrayBuffer | null | string>(null);
 
     const onChangeName = (values: React.ChangeEvent<HTMLInputElement>) => {
         const value = values.target.value;
@@ -39,7 +42,22 @@ const Profile: React.FC = () => {
         setPhone(value);
     };
 
-    const onFinish = async (values: State) => {
+    const changeAvt = (value: React.ChangeEvent<HTMLInputElement>) => {
+        if (value.target.files) {
+            console.log('picture: ', value.target.files);
+            setPicture(value.target.files[0]);
+            const reader = new FileReader();
+            reader.addEventListener('load', () => {
+                setImgData(reader.result);
+            });
+        }
+        setTimeout(() => {
+            console.log(picture);
+            console.log(image);
+        }, 1000);
+    };
+
+    const onFinish = async (values: any) => {
         values.id = id;
         const data = await changeProfile(values);
         if (data.errorCode === 1) {
@@ -51,6 +69,11 @@ const Profile: React.FC = () => {
         } else {
             openNotificationWithIcon('success', 'Thành công', '');
         }
+        const storageRef = app.storage().ref();
+        const fileRef = storageRef.child(values.avt[0].name);
+        fileRef.put(values.avt[0]).then(() => {
+            console.log('Uploaded a file');
+        });
     };
 
     return (
@@ -73,7 +96,15 @@ const Profile: React.FC = () => {
                     </div>
                     <div className={cls.avt_change}>
                         <div>{username}</div>
-                        <div>Thay đổi ảnh đại diện</div>
+                        {/* <div className={cls.change} onClick={changeAvt}>
+                            Thay đổi ảnh đại diện
+                        </div> */}
+                        <input
+                            type="file"
+                            ref={register}
+                            onChange={changeAvt}
+                            name="avt"
+                        />
                     </div>
                 </div>
                 <div className={cls.compo}>

@@ -79,20 +79,24 @@ const Header: React.FC<Props> = (props) => {
 
                 <nav className={cls.icon}>
                     {homeClick && (
-                        <HomeBlackIcon
-                            className={cls.icon_item}
-                            onClick={homeOnClick}
-                            height={25}
-                            width={22}
-                        />
+                        <Link to="/">
+                            <HomeBlackIcon
+                                className={cls.icon_item}
+                                onClick={homeOnClick}
+                                height={25}
+                                width={22}
+                            />
+                        </Link>
                     )}
                     {!homeClick && (
-                        <HomeIcon
-                            className={cls.icon_item}
-                            onClick={homeOnClick}
-                            height={25}
-                            width={22}
-                        />
+                        <Link to="/">
+                            <HomeIcon
+                                className={cls.icon_item}
+                                onClick={homeOnClick}
+                                height={25}
+                                width={22}
+                            />
+                        </Link>
                     )}
                     {messClick && (
                         <MessBlackIcon
