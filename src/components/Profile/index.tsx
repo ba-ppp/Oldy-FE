@@ -51,10 +51,7 @@ const Profile: React.FC = () => {
                 setImgData(reader.result);
             });
         }
-        setTimeout(() => {
-            console.log(picture);
-            console.log(image);
-        }, 1000);
+        
     };
 
     const onFinish = async (values: any) => {
