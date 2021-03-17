@@ -26,9 +26,6 @@ export default {
     getVerifyOTPEndPoint(): string {
         return `${this.HOST_URL}/api/registration/verification`;
     },
-    getProfileEndPoint(): string {
-        return `${this.HOST_URL}/api/profile`;
-    },
     getForgotEndPoint(): string {
         return `${this.HOST_URL}/api/password/forget`;
     },

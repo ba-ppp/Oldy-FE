@@ -1,13 +1,80 @@
+import { Button } from 'antd';
+import { changeProfile } from 'api/profile';
 import { useSelector } from 'app/reducers/type';
 import Header from 'components/Header';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import cls from './_profile.module.scss';
-import React from 'react';
-import { Button } from 'antd';
+import openNotificationWithIcon from 'helpers/design/notification';
+import { app } from 'firebaseConfig';
+type State = {
+    name: string;
+    username: string;
+    email: string;
+    id: string;
+};
 
 const Profile: React.FC = () => {
+    // form
+    const { handleSubmit, register } = useForm<State>();
+
     const state = useSelector((state) => state.profile);
     const avt = state.avt;
-    const { name, username, email } = state;
+    const id = state.id;
+
+    const [name, setName] = useState(state.name);
+    const [username] = useState(state.username);
+    const [email, setEmail] = useState(state.email);
+    const [phone, setPhone] = useState('0123456789');
+    const [picture, setPicture] = useState<File | null>(null);
+    const [image, setImgData] = useState<ArrayBuffer | null | string>(null);
+
+    const onChangeName = (values: React.ChangeEvent<HTMLInputElement>) => {
+        const value = values.target.value;
+        setName(value);
+    };
+    const onChangeEmail = (values: React.ChangeEvent<HTMLInputElement>) => {
+        const value = values.target.value;
+        setEmail(value);
+    };
+    const onChangePhone = (values: React.ChangeEvent<HTMLInputElement>) => {
+        const value = values.target.value;
+        setPhone(value);
+    };
+
+    const changeAvt = (value: React.ChangeEvent<HTMLInputElement>) => {
+        if (value.target.files) {
+            console.log('picture: ', value.target.files);
+            setPicture(value.target.files[0]);
+            const reader = new FileReader();
+            reader.addEventListener('load', () => {
+                setImgData(reader.result);
+            });
+        }
+        setTimeout(() => {
+            console.log(picture);
+            console.log(image);
+        }, 1000);
+    };
+
+    const onFinish = async (values: any) => {
+        values.id = id;
+        const data = await changeProfile(values);
+        if (data.errorCode === 1) {
+            openNotificationWithIcon(
+                'warning',
+                'Không thành công',
+                data.message
+            );
+        } else {
+            openNotificationWithIcon('success', 'Thành công', '');
+        }
+        const storageRef = app.storage().ref();
+        const fileRef = storageRef.child(values.avt[0].name);
+        fileRef.put(values.avt[0]).then(() => {
+            console.log('Uploaded a file');
+        });
+    };
 
     return (
         <div>
@@ -19,7 +86,7 @@ const Profile: React.FC = () => {
                 messClick={false}
                 style={{ position: 'unset' }}
             />
-            <div className={cls.main}>
+            <form className={cls.main} onSubmit={handleSubmit(onFinish)}>
                 <div className={cls.compo_avt}>
                     <div className={cls.avt_width}>
                         <div
@@ -29,24 +96,55 @@ const Profile: React.FC = () => {
                     </div>
                     <div className={cls.avt_change}>
                         <div>{username}</div>
-                        <div>Thay đổi ảnh đại diện</div>
+                        {/* <div className={cls.change} onClick={changeAvt}>
+                            Thay đổi ảnh đại diện
+                        </div> */}
+                        <input
+                            type="file"
+                            ref={register}
+                            onChange={changeAvt}
+                            name="avt"
+                        />
                     </div>
                 </div>
                 <div className={cls.compo}>
                     <div className={cls.label}>Tên:&nbsp;</div>
-                    <input className={cls.input} value={name} />
+                    <input
+                        className={cls.input}
+                        onChange={onChangeName}
+                        value={name}
+                        name="name"
+                        ref={register}
+                    />
                 </div>
                 <div className={cls.compo}>
                     <div className={cls.label}>Tên người dùng:&nbsp;</div>
-                    <input className={cls.input} value={username} />
+                    <input
+                        className={cls.input}
+                        disabled={true}
+                        value={username}
+                        name="username"
+                    />
                 </div>
                 <div className={cls.compo}>
                     <div className={cls.label}>Email:&nbsp;</div>
-                    <input className={cls.input} value={email} />
+                    <input
+                        className={cls.input}
+                        onChange={onChangeEmail}
+                        value={email}
+                        name="email"
+                        ref={register}
+                    />
                 </div>
                 <div className={cls.compo}>
                     <div className={cls.label}>Số điện thoại:&nbsp;</div>
-                    <input className={cls.input} value="0123456789" />
+                    <input
+                        className={cls.input}
+                        onChange={onChangePhone}
+                        value={phone}
+                        name="phone"
+                        ref={register}
+                    />
                 </div>
                 <div className={cls.button}>
                     <aside className={cls.aside} />
@@ -59,7 +157,7 @@ const Profile: React.FC = () => {
                         Gửi
                     </Button>
                 </div>
-            </div>
+            </form>
         </div>
     );
 };

@@ -38,6 +38,11 @@ body {
 
         .avt_change {
             width: 60%;
+
+            .change {
+                cursor: pointer;
+                color: #0095f6;
+            }
         }
     }
 
@@ -72,6 +77,64 @@ body {
 
         .button_click {
             margin-top: 30px;
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .main {
+        width: 80% !important;
+
+        .compo_avt {
+            width: 100% !important;
+
+            .avt_width {
+                justify-content: unset;
+            }
+        }
+
+        .compo {
+            width: 100% !important;
+
+            .label {
+                text-align: left;
+            }
+        }
+
+        .button {
+            .aside {
+                width: 123px !important;
+                margin-right: 0px !important;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 487px) {
+    .main {
+        width: 100% !important;
+
+        .compo_avt {
+            width: 100% !important;
+
+            .avt_width {
+                justify-content: unset;
+            }
+        }
+
+        .compo {
+            width: 100% !important;
+
+            .label {
+                text-align: left;
+            }
+        }
+
+        .button {
+            .aside {
+                width: 123px !important;
+                margin-right: 0px !important;
+            }
         }
     }
 }
