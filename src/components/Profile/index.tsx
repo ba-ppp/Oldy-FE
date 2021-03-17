@@ -51,10 +51,7 @@ const Profile: React.FC = () => {
                 setImgData(reader.result);
             });
         }
-        setTimeout(() => {
-            console.log(picture);
-            console.log(image);
-        }, 1000);
+        
     };
 
     const onFinish = async (values: any) => {
@@ -96,15 +93,15 @@ const Profile: React.FC = () => {
                     </div>
                     <div className={cls.avt_change}>
                         <div>{username}</div>
-                        {/* <div className={cls.change} onClick={changeAvt}>
-                            Thay đổi ảnh đại diện
-                        </div> */}
                         <input
+                            className={cls.inputFile}
                             type="file"
                             ref={register}
                             onChange={changeAvt}
                             name="avt"
+                            id="avt"
                         />
+                        <label htmlFor="avt">Thay đổi ảnh đại diện</label>
                     </div>
                 </div>
                 <div className={cls.compo}>
