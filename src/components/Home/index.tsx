@@ -9,6 +9,7 @@ import { ReactComponent as HeartIcon } from 'assets/images/home/heart.svg';
 import { useSelector } from 'app/reducers/type';
 import getPost, { ArrayPost } from 'api/data/post/post';
 import { PromiseResponse } from 'api/data/post/post';
+import { Link } from 'react-router-dom';
 
 const Home: React.FC = () => {
     const state = useSelector((state) => state.profile);
@@ -75,11 +76,13 @@ const Home: React.FC = () => {
                 </div>
                 <div className={cls.footer}>
                     <div className={cls.nav}>
-                        <HomeIcon
-                            height={25}
-                            width={25}
-                            className={cls.nav_icon}
-                        />
+                        <Link to="/">
+                            <HomeIcon
+                                height={25}
+                                width={25}
+                                className={cls.nav_icon}
+                            />
+                        </Link>
                         <FindIcon
                             width={25}
                             height={25}
@@ -95,10 +98,12 @@ const Home: React.FC = () => {
                             height={25}
                             className={cls.nav_icon}
                         />
-                        <div
-                            className={cls.nav_icon_avt}
-                            style={{ backgroundImage: `url(${avt})` }}
-                        />
+                        <Link to="/profile">
+                            <div
+                                className={cls.nav_icon_avt}
+                                style={{ backgroundImage: `url(${avt})` }}
+                            />
+                        </Link>
                     </div>
                 </div>
             </div>
