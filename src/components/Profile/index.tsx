@@ -53,6 +53,7 @@ const Profile: React.FC = () => {
             const formData = new FormData();
             formData.append('file', value.target.files[0]);
             changeAvt(formData);
+            console.log('hi');
         }
     };
 

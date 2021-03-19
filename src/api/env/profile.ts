@@ -17,4 +17,7 @@ export default {
     getChangeProfile(): string {
         return `${this.HOST_URL}/api/profile/change-profile`;
     },
+    getChangeAvt(): string {
+        return `${this.HOST_URL}/api/profile/change-avt`;
+    },
 };

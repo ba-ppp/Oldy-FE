@@ -21,7 +21,7 @@ const changeAvt = (data: FormData): Promise<PromiseRespone> => {
             'content-type': 'multipart/form-data',
         },
     };
-    const url = Environment.getChangeProfile();
+    const url = Environment.getChangeAvt();
     return new Promise((resolve, reject) => {
         axios
             .post(url, data, config)
