@@ -6,15 +6,26 @@ type Props = {
 };
 
 export type ServerData = {
-    code: string;
+    avt?: string;
+    code?: string;
+    email?: string;
+    error?: string;
     errorCode: number;
-    token: string;
+    token?: string;
+    id?: string;
+    name?: string;
+    username?: string;
 };
 
 interface PromiseResponse {
+    avt?: string;
     code?: string;
-    token?: string;
+    email?: string;
     error?: string;
+    token?: string;
+    id?: string;
+    name?: string;
+    username?: string;
 }
 
 type AxiosResponse = {
@@ -34,8 +45,14 @@ const forgot = ({ account }: Props): Promise<PromiseResponse> => {
                 const dataResponse = response.data;
                 if (dataResponse.errorCode === 0) {
                     resolve({
+                        avt: dataResponse.avt,
                         code: dataResponse.code,
+                        email: dataResponse.email,
+                        error: dataResponse.error,
                         token: dataResponse.token,
+                        id: dataResponse.id,
+                        name: dataResponse.name,
+                        username: dataResponse.username,
                     });
                 }
                 resolve({ error: 'Server has downed' });
