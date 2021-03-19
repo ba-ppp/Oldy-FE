@@ -78,7 +78,7 @@ const Login: React.FC = () => {
     const onFinish = async (values: State) => {
         const actionResult = await dispatch(getLogin(values));
         const result = unwrapResult(actionResult);
-
+        console.log(result);
         if (result.error) {
             openNotificationWithIcon(
                 'error',

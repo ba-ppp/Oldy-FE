@@ -1,6 +1,7 @@
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Button, Form, Input } from 'antd';
 import { addcode, getCode } from 'app/slices/codeSlice';
+import { addProfile } from 'app/slices/userProfileSlice';
 import logo from 'assets/images/logo/logo_192x192_w.jpg';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -8,7 +9,7 @@ import { Redirect } from 'react-router-dom';
 import cls from './_forget.module.scss';
 
 type State = {
-    email: string;
+    account: string;
 };
 
 const Forget: React.FC = () => {
@@ -19,8 +20,10 @@ const Forget: React.FC = () => {
     const onFinish = async (value: State) => {
         const actionResult = await dispatch(getCode(value));
         const result = unwrapResult(actionResult);
-        const action = addcode(result);
-        dispatch(action);
+        const actionf = addcode(result);
+        const actions = addProfile(result);
+        dispatch(actionf);
+        dispatch(actions);
         setisPost(true);
     };
 
