@@ -1,5 +1,5 @@
 import { Button } from 'antd';
-import { changeProfile } from 'api/profile';
+import { changeProfile, changeAvt } from 'api/profile';
 import { useSelector } from 'app/reducers/type';
 import Header from 'components/Header';
 import React, { useState } from 'react';
@@ -26,8 +26,8 @@ const Profile: React.FC = () => {
     const [username] = useState(state.username);
     const [email, setEmail] = useState(state.email);
     const [phone, setPhone] = useState('0123456789');
-    const [picture, setPicture] = useState<File | null>(null);
-    const [image, setImgData] = useState<ArrayBuffer | null | string>(null);
+    // const [picture, setPicture] = useState<File | null>(null);
+    // const [image, setImgData] = useState<ArrayBuffer | null | string>(null);
 
     const onChangeName = (values: React.ChangeEvent<HTMLInputElement>) => {
         const value = values.target.value;
@@ -42,19 +42,18 @@ const Profile: React.FC = () => {
         setPhone(value);
     };
 
-    const changeAvt = (value: React.ChangeEvent<HTMLInputElement>) => {
+    const uploadAvt = (value: React.ChangeEvent<HTMLInputElement>) => {
         if (value.target.files) {
-            console.log('picture: ', value.target.files);
-            setPicture(value.target.files[0]);
-            const reader = new FileReader();
-            reader.addEventListener('load', () => {
-                setImgData(reader.result);
-            });
+            // console.log('picture: ', value.target.files);
+            // setPicture(value.target.files[0]);
+            // const reader = new FileReader();
+            // reader.addEventListener('load', () => {
+            //     setImgData(reader.result);
+            // });
+            const formData = new FormData();
+            formData.append('file', value.target.files[0]);
+            changeAvt(formData);
         }
-        setTimeout(() => {
-            console.log(picture);
-            console.log(image);
-        }, 1000);
     };
 
     const onFinish = async (values: any) => {
@@ -100,7 +99,7 @@ const Profile: React.FC = () => {
                             className={cls.inputFile}
                             type="file"
                             ref={register}
-                            onChange={changeAvt}
+                            onChange={uploadAvt}
                             name="avt"
                             id="avt"
                         />
