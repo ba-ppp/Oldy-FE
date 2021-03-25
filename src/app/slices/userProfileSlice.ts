@@ -61,6 +61,13 @@ const userProfileSlice = createSlice({
             newState.avt = avt;
             return newState;
         },
+        changeAvtURL: (state: UserProfileReducer, action) => {
+            const { avt } = action.payload;
+            const newState = { ...state };
+            newState.avt = avt;
+            console.log(newState);
+            return newState;
+        },
     },
     extraReducers: {
         [getLogin.pending]: (state) => {
@@ -87,6 +94,6 @@ const userProfileSlice = createSlice({
     },
 });
 
-export const { addProfile } = userProfileSlice.actions;
+export const { addProfile, changeAvtURL } = userProfileSlice.actions;
 
 export default userProfileSlice.reducer;

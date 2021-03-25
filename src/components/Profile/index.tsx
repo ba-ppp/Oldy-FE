@@ -1,11 +1,13 @@
 import { Button } from 'antd';
-import { changeProfile, changeAvt } from 'api/profile';
+import { changeAvt, changeProfile } from 'api/profile';
 import { useSelector } from 'app/reducers/type';
+import { changeAvtURL } from 'app/slices/userProfileSlice';
 import Header from 'components/Header';
+import openNotificationWithIcon from 'helpers/design/notification';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import cls from './_profile.module.scss';
-import openNotificationWithIcon from 'helpers/design/notification';
 type State = {
     name: string;
     username: string;
@@ -20,6 +22,8 @@ const Profile: React.FC = () => {
     const state = useSelector((state) => state.profile);
     let avt = state.avt;
     const id = state.id;
+
+    const dispatch = useDispatch();
 
     const [name, setName] = useState(state.name);
     const [username] = useState(state.username);
@@ -42,7 +46,7 @@ const Profile: React.FC = () => {
         setPhone(value);
     };
 
-    const uploadAvt = (value: React.ChangeEvent<HTMLInputElement>) => {
+    const uploadAvt = async (value: React.ChangeEvent<HTMLInputElement>) => {
         if (value.target.files) {
             if (value.target.files[0]) {
                 //setPicture(value.target.files[0]);
@@ -55,7 +59,13 @@ const Profile: React.FC = () => {
             const formData = new FormData();
             formData.append('avt', value.target.files[0]);
             formData.append('userId', id);
-            changeAvt(formData);
+            const data = await changeAvt(formData);
+            console.log(data);
+            const newAvt = {
+                avt: data.avt,
+            };
+            const action = changeAvtURL(newAvt);
+            dispatch(action);
         }
     };
 

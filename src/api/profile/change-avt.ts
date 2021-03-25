@@ -2,13 +2,14 @@ import Environment from 'api/env/profile';
 import axios from 'axios';
 
 export interface PromiseRespone {
-    errorCode: number;
     message: string;
+    avt?: string;
 }
 
 type ServerData = {
     errorCode: number;
     message: string;
+    avt?: string;
 };
 
 type AxiosResponse = {
@@ -27,11 +28,17 @@ const changeAvt = (data: FormData): Promise<PromiseRespone> => {
             .post(url, data, config)
             .then((response: AxiosResponse) => {
                 const dataResponse = response.data;
-                console.log(dataResponse);
-                const result = {
-                    message: dataResponse.message,
-                    errorCode: dataResponse.errorCode,
-                };
+                let result: PromiseRespone;
+                if (dataResponse.errorCode === 0) {
+                    result = {
+                        message: dataResponse.message,
+                        avt: dataResponse.avt,
+                    };
+                } else {
+                    result = {
+                        message: dataResponse.message,
+                    };
+                }
                 resolve(result);
             })
             .catch((e: any) => {
