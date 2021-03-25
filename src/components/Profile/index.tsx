@@ -1,12 +1,13 @@
 import { Button } from 'antd';
-import { changeProfile } from 'api/profile';
+import { changeAvt, changeProfile } from 'api/profile';
 import { useSelector } from 'app/reducers/type';
+import { changeAvtURL } from 'app/slices/userProfileSlice';
 import Header from 'components/Header';
+import openNotificationWithIcon from 'helpers/design/notification';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import cls from './_profile.module.scss';
-import openNotificationWithIcon from 'helpers/design/notification';
-import { app } from 'firebaseConfig';
 type State = {
     name: string;
     username: string;
@@ -19,15 +20,18 @@ const Profile: React.FC = () => {
     const { handleSubmit, register } = useForm<State>();
 
     const state = useSelector((state) => state.profile);
-    const avt = state.avt;
+    let avt = state.avt;
     const id = state.id;
+
+    const dispatch = useDispatch();
 
     const [name, setName] = useState(state.name);
     const [username] = useState(state.username);
     const [email, setEmail] = useState(state.email);
     const [phone, setPhone] = useState('0123456789');
-    const [picture, setPicture] = useState<File | null>(null);
-    const [image, setImgData] = useState<ArrayBuffer | null | string>(null);
+
+    //const [picture, setPicture] = useState<File>();
+    const [image, setImage] = useState<string | ArrayBuffer | null>(avt);
 
     const onChangeName = (values: React.ChangeEvent<HTMLInputElement>) => {
         const value = values.target.value;
@@ -42,19 +46,27 @@ const Profile: React.FC = () => {
         setPhone(value);
     };
 
-    const changeAvt = (value: React.ChangeEvent<HTMLInputElement>) => {
+    const uploadAvt = async (value: React.ChangeEvent<HTMLInputElement>) => {
         if (value.target.files) {
-            console.log('picture: ', value.target.files);
-            setPicture(value.target.files[0]);
-            const reader = new FileReader();
-            reader.addEventListener('load', () => {
-                setImgData(reader.result);
-            });
+            if (value.target.files[0]) {
+                //setPicture(value.target.files[0]);
+                const reader = new FileReader();
+                reader.addEventListener('load', () => {
+                    setImage(reader.result);
+                });
+                reader.readAsDataURL(value.target.files[0]);
+            }
+            const formData = new FormData();
+            formData.append('avt', value.target.files[0]);
+            formData.append('userId', id);
+            const data = await changeAvt(formData);
+            console.log(data);
+            const newAvt = {
+                avt: data.avt,
+            };
+            const action = changeAvtURL(newAvt);
+            dispatch(action);
         }
-        setTimeout(() => {
-            console.log(picture);
-            console.log(image);
-        }, 1000);
     };
 
     const onFinish = async (values: any) => {
@@ -69,11 +81,6 @@ const Profile: React.FC = () => {
         } else {
             openNotificationWithIcon('success', 'Thành công', '');
         }
-        const storageRef = app.storage().ref();
-        const fileRef = storageRef.child(values.avt[0].name);
-        fileRef.put(values.avt[0]).then(() => {
-            console.log('Uploaded a file');
-        });
     };
 
     return (
@@ -86,12 +93,16 @@ const Profile: React.FC = () => {
                 messClick={false}
                 style={{ position: 'unset' }}
             />
-            <form className={cls.main} onSubmit={handleSubmit(onFinish)}>
+            <form
+                className={cls.main}
+                onSubmit={handleSubmit(onFinish)}
+                encType="multipart/form-data"
+            >
                 <div className={cls.compo_avt}>
                     <div className={cls.avt_width}>
                         <div
                             className={cls.avt}
-                            style={{ backgroundImage: `url(${avt})` }}
+                            style={{ backgroundImage: `url(${image})` }}
                         />
                     </div>
                     <div className={cls.avt_change}>
@@ -100,9 +111,10 @@ const Profile: React.FC = () => {
                             className={cls.inputFile}
                             type="file"
                             ref={register}
-                            onChange={changeAvt}
+                            onChange={uploadAvt}
                             name="avt"
                             id="avt"
+                            multiple
                         />
                         <label htmlFor="avt">Thay đổi ảnh đại diện</label>
                     </div>
