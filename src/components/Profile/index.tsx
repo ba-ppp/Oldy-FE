@@ -60,7 +60,11 @@ const Profile: React.FC = () => {
             formData.append('avt', value.target.files[0]);
             formData.append('userId', id);
             const data = await changeAvt(formData);
-            console.log(data);
+            if (data.avt) {
+                openNotificationWithIcon('success', '', data.message);
+            } else {
+                openNotificationWithIcon('error', '', data.message);
+            }
             const newAvt = {
                 avt: data.avt,
             };

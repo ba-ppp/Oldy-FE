@@ -65,7 +65,6 @@ const userProfileSlice = createSlice({
             const { avt } = action.payload;
             const newState = { ...state };
             newState.avt = avt;
-            console.log(newState);
             return newState;
         },
     },
