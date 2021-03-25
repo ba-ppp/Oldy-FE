@@ -146,11 +146,12 @@ const Header: React.FC<Props> = (props) => {
                             width={22}
                         />
                     )}
-                    <Link
-                        to="/profile"
-                        className={cls.icon_avt}
-                        style={{ backgroundImage: `url(${props.avt})` }}
-                    />
+                    <Link to="/profile">
+                        <div
+                            className={cls.icon_avt}
+                            style={{ backgroundImage: `url(${props.avt})` }}
+                        />
+                    </Link>
                 </nav>
             </div>
         </div>
