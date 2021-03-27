@@ -1,15 +1,41 @@
+import { Modal } from 'antd';
+import getPost, { ArrayPost, PromiseResponse } from 'api/data/post/post';
+import { useSelector } from 'app/reducers/type';
+import { ReactComponent as AddIcon } from 'assets/images/home/add.svg';
+import { ReactComponent as FindIcon } from 'assets/images/home/find.svg';
+import { ReactComponent as HeartIcon } from 'assets/images/home/heart.svg';
+import { ReactComponent as HomeIcon } from 'assets/images/home/home.svg';
+import { ReactComponent as PictureIcon } from 'assets/images/home/picture.svg';
 import Header from 'components/Header';
 import React, { useEffect, useState } from 'react';
-import cls from './_home.module.scss';
-import Post from './Post';
-import { ReactComponent as HomeIcon } from 'assets/images/home/home.svg';
-import { ReactComponent as FindIcon } from 'assets/images/home/find.svg';
-import { ReactComponent as AddIcon } from 'assets/images/home/add.svg';
-import { ReactComponent as HeartIcon } from 'assets/images/home/heart.svg';
-import { useSelector } from 'app/reducers/type';
-import getPost, { ArrayPost } from 'api/data/post/post';
-import { PromiseResponse } from 'api/data/post/post';
 import { Link } from 'react-router-dom';
+import Post from './Post';
+import cls from './_home.module.scss';
+
+//style
+const modal = {
+    width: '95%',
+    height: '50px',
+    backgroundColor: '#fafafa',
+    border: '1px solid #fff',
+    borderRadius: '5%',
+    paddingLeft: '12px',
+    fontSize: '20px',
+    outline: 'none',
+};
+const modal_input = {
+    width: '0.1px',
+    height: '0.1px',
+    opacity: 0,
+    overflow: 'hidden',
+    zIndex: -1,
+};
+
+const picture = {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    width: '95%',
+};
 
 const Home: React.FC = () => {
     const state = useSelector((state) => state.profile);
@@ -45,6 +71,16 @@ const Home: React.FC = () => {
                             placeholder="Bạn đang nghĩ gì vậy?"
                         />
                     </div>
+                    <Modal title="Tạo bài viết" visible={true}>
+                        <input
+                            style={modal}
+                            placeholder="Bạn đang nghĩ gì vậy?"
+                        />
+                        <input type="file" style={modal_input} id="pic" />
+                        <label htmlFor="pic" style={picture}>
+                            <PictureIcon height={25} width={25} />
+                        </label>
+                    </Modal>
                     {posts &&
                         posts.map(function (post: ArrayPost, key: number) {
                             return (
