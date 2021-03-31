@@ -34,6 +34,7 @@ const modal_input = {
 const picture = {
     display: 'flex',
     justifyContent: 'flex-end',
+    cursor: 'pointer',
     width: '95%',
 };
 
@@ -42,6 +43,7 @@ const Home: React.FC = () => {
     const avt = state.avt;
     const userId = state.id;
     const [posts, setPosts] = useState<PromiseResponse | any>(null);
+    const [caption, setCaption] = useState('');
 
     useEffect(() => {
         async function fetchData() {
@@ -50,6 +52,12 @@ const Home: React.FC = () => {
         }
         fetchData();
     }, []);
+
+    const postCaption = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const data = event.target.value;
+        setCaption(data);
+        console.log(caption);
+    };
     return (
         <div>
             <Header
@@ -75,6 +83,7 @@ const Home: React.FC = () => {
                         <input
                             style={modal}
                             placeholder="Bạn đang nghĩ gì vậy?"
+                            onChange={postCaption}
                         />
                         <input type="file" style={modal_input} id="pic" />
                         <label htmlFor="pic" style={picture}>
