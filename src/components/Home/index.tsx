@@ -8,9 +8,15 @@ import { ReactComponent as HomeIcon } from 'assets/images/home/home.svg';
 import { ReactComponent as PictureIcon } from 'assets/images/home/picture.svg';
 import Header from 'components/Header';
 import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import Post from './Post';
 import cls from './_home.module.scss';
+
+type State = {
+    caption: string;
+    images: FileList;
+};
 
 //style
 const modal = {
@@ -43,7 +49,8 @@ const Home: React.FC = () => {
     const avt = state.avt;
     const userId = state.id;
     const [posts, setPosts] = useState<PromiseResponse | any>(null);
-    const [caption, setCaption] = useState('');
+
+    const { handleSubmit, register } = useForm<State>();
 
     useEffect(() => {
         async function fetchData() {
@@ -53,10 +60,13 @@ const Home: React.FC = () => {
         fetchData();
     }, []);
 
-    const postCaption = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const data = event.target.value;
-        setCaption(data);
-        console.log(caption);
+    const onFinish = (value: State) => {
+        const images = value.images[0];
+        const caption = value.caption;
+
+        const formData = new FormData();
+        formData.append('images', images);
+        formData.append('caption', caption);
     };
     return (
         <div>
@@ -79,16 +89,29 @@ const Home: React.FC = () => {
                             placeholder="Bạn đang nghĩ gì vậy?"
                         />
                     </div>
-                    <Modal title="Tạo bài viết" visible={true}>
-                        <input
-                            style={modal}
-                            placeholder="Bạn đang nghĩ gì vậy?"
-                            onChange={postCaption}
-                        />
-                        <input type="file" style={modal_input} id="pic" />
-                        <label htmlFor="pic" style={picture}>
-                            <PictureIcon height={25} width={25} />
-                        </label>
+                    <Modal
+                        title="Tạo bài viết"
+                        visible={true}
+                        onOk={handleSubmit(onFinish)}
+                    >
+                        <form encType="multipart/form-data">
+                            <input
+                                style={modal}
+                                placeholder="Bạn đang nghĩ gì vậy?"
+                                name="caption"
+                                ref={register}
+                            />
+                            <input
+                                type="file"
+                                style={modal_input}
+                                id="pic"
+                                name="images"
+                                ref={register}
+                            />
+                            <label htmlFor="pic" style={picture}>
+                                <PictureIcon height={25} width={25} />
+                            </label>
+                        </form>
                     </Modal>
                     {posts &&
                         posts.map(function (post: ArrayPost, key: number) {
