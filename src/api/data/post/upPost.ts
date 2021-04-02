@@ -3,44 +3,25 @@ import axios from 'axios';
 
 type Props = {
     userId: string;
+    caption: string;
+    images: File;
 };
 
-export interface PromiseResponse {
-    posts: Array<ArrayPost>;
+type PromiseResponse = {
+    message: string;
 }
 
-type Post = {
-    likes: Array<string>;
-    liked: boolean;
-    comment?: string | null;
-    share: Array<string>;
-    _id: string;
-    userId: string;
-    caption: string;
-    image: string;
-};
-
-type UserPost = {
-    username: string;
-    avt: string;
-};
-
-export interface ArrayPost {
-    post: Post;
-    user: UserPost;
-};
-
 type ServerData = {
+    message: string;
     errorCode: number;
-    posts: Array<ArrayPost>;
-};
+}
 
 type AxiosResponse = {
     data: ServerData;
 };
 
-const getPost = ({ userId }: Props): Promise<PromiseResponse> => {
-    const data = { userId };
+const getPost = ({ userId, caption, images }: Props): Promise<PromiseResponse> => {
+    const data = { userId, caption, images };
     const url = Environment.getPostpoint();
 
     return new Promise((resolve, reject) => {
@@ -50,7 +31,7 @@ const getPost = ({ userId }: Props): Promise<PromiseResponse> => {
                 const dataResponse = response.data;
                 if (dataResponse.errorCode === 0) {
                     const result = {
-                        posts: dataResponse.posts,
+                        message: dataResponse.message,
                     };
                     resolve(result);
                 }

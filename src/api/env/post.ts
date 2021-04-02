@@ -20,4 +20,10 @@ export default {
     getLikePostPoint(): string {
         return `${this.HOST_URL}/api/post/like`;
     },
+    getUpPostPoint(): string {
+        return `${this.HOST_URL}/api/post/upload`;
+    },
+    getUpImagePoint(): string {
+        return `${this.HOST_URL}/api/post/image`;
+    }
 };
