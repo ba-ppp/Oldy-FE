@@ -28,7 +28,7 @@ type UserPost = {
 export interface ArrayPost {
     post: Post;
     user: UserPost;
-};
+}
 
 type ServerData = {
     errorCode: number;

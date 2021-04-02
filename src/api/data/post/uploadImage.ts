@@ -3,10 +3,12 @@ import axios from 'axios';
 
 export interface PromiseRespone {
     message: string;
+    url?: string;
 }
 
 type ServerData = {
     errorCode: number;
+    url: string;
     message: string;
 };
 
@@ -30,6 +32,7 @@ const uploadImage = (data: FormData): Promise<PromiseRespone> => {
                 if (dataResponse.errorCode === 0) {
                     result = {
                         message: dataResponse.message,
+                        url: dataResponse.url,
                     };
                 } else {
                     result = {

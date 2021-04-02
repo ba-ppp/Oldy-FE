@@ -1,5 +1,7 @@
 import { Modal } from 'antd';
 import getPost, { ArrayPost, PromiseResponse } from 'api/data/post/post';
+import uploadImage from 'api/data/post/uploadImage';
+import upPost from 'api/data/post/upPost';
 import { useSelector } from 'app/reducers/type';
 import { ReactComponent as AddIcon } from 'assets/images/home/add.svg';
 import { ReactComponent as FindIcon } from 'assets/images/home/find.svg';
@@ -7,6 +9,7 @@ import { ReactComponent as HeartIcon } from 'assets/images/home/heart.svg';
 import { ReactComponent as HomeIcon } from 'assets/images/home/home.svg';
 import { ReactComponent as PictureIcon } from 'assets/images/home/picture.svg';
 import Header from 'components/Header';
+import openNotificationWithIcon from 'helpers/design/notification';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -49,7 +52,8 @@ const Home: React.FC = () => {
     const avt = state.avt;
     const userId = state.id;
     const [posts, setPosts] = useState<PromiseResponse | any>(null);
-
+    const [image, setImage] = useState<string | ArrayBuffer | null>(null); // show
+    const [imageURL, setImageURL] = useState<string>('');
     const { handleSubmit, register } = useForm<State>();
 
     useEffect(() => {
@@ -60,13 +64,37 @@ const Home: React.FC = () => {
         fetchData();
     }, []);
 
-    const onFinish = (value: State) => {
-        const images = value.images[0];
-        const caption = value.caption;
+    const upload = async (value: React.ChangeEvent<HTMLInputElement>) => {
+        if (value.target.files) {
+            if (value.target.files[0]) {
+                const reader = new FileReader();
+                reader.addEventListener('load', () => {
+                    setImage(reader.result);
+                });
+                reader.readAsDataURL(value.target.files[0]);
+            }
+            const formData = new FormData();
+            formData.append('avt', value.target.files[0]);
+            formData.append('userId', userId);
+            const data = await uploadImage(formData);
+            if (data.url) {
+                setImageURL(data.url);
+                openNotificationWithIcon('success', '', data.message);
+            } else {
+                openNotificationWithIcon('error', '', data.message);
+            }
+        }
+    };
 
-        const formData = new FormData();
-        formData.append('images', images);
-        formData.append('caption', caption);
+    const onFinish = async (value: State) => {
+        const caption = value.caption;
+        const data = {
+            userId: userId,
+            images: imageURL,
+            caption: caption,
+        };
+        const result = await upPost(data);
+        openNotificationWithIcon('success', '', result.message);
     };
     return (
         <div>
@@ -106,6 +134,7 @@ const Home: React.FC = () => {
                                 style={modal_input}
                                 id="pic"
                                 name="images"
+                                onChange={upload}
                                 ref={register}
                             />
                             <label htmlFor="pic" style={picture}>

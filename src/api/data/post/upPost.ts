@@ -4,23 +4,27 @@ import axios from 'axios';
 type Props = {
     userId: string;
     caption: string;
-    images: File;
+    images: string;
 };
 
 type PromiseResponse = {
     message: string;
-}
+};
 
 type ServerData = {
     message: string;
     errorCode: number;
-}
+};
 
 type AxiosResponse = {
     data: ServerData;
 };
 
-const getPost = ({ userId, caption, images }: Props): Promise<PromiseResponse> => {
+const upPost = ({
+    userId,
+    caption,
+    images,
+}: Props): Promise<PromiseResponse> => {
     const data = { userId, caption, images };
     const url = Environment.getPostpoint();
 
@@ -42,4 +46,4 @@ const getPost = ({ userId, caption, images }: Props): Promise<PromiseResponse> =
     });
 };
 
-export default getPost;
+export default upPost;

@@ -25,5 +25,5 @@ export default {
     },
     getUpImagePoint(): string {
         return `${this.HOST_URL}/api/post/image`;
-    }
+    },
 };
