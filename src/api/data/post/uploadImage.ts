@@ -1,4 +1,4 @@
-import Environment from 'api/env/profile';
+import Environment from 'api/env/post';
 import axios from 'axios';
 
 export interface PromiseRespone {
@@ -8,8 +8,8 @@ export interface PromiseRespone {
 
 type ServerData = {
     errorCode: number;
-    url: string;
     message: string;
+    url: string;
 };
 
 type AxiosResponse = {
@@ -22,7 +22,7 @@ const uploadImage = (data: FormData): Promise<PromiseRespone> => {
             'content-type': 'multipart/form-data',
         },
     };
-    const url = Environment.getChangeAvt();
+    const url = Environment.getUpImagePoint();
     return new Promise((resolve, reject) => {
         axios
             .post(url, data, config)

@@ -26,7 +26,7 @@ const upPost = ({
     images,
 }: Props): Promise<PromiseResponse> => {
     const data = { userId, caption, images };
-    const url = Environment.getPostpoint();
+    const url = Environment.getUpPostPoint();
 
     return new Promise((resolve, reject) => {
         axios

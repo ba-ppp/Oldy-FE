@@ -40,6 +40,11 @@ const modal_input = {
     zIndex: -1,
 };
 
+const modal_image = {
+    height: '300px',
+    width: '300px',
+};
+
 const picture = {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -52,9 +57,10 @@ const Home: React.FC = () => {
     const avt = state.avt;
     const userId = state.id;
     const [posts, setPosts] = useState<PromiseResponse | any>(null);
-    const [image, setImage] = useState<string | ArrayBuffer | null>(null); // show
     const [imageURL, setImageURL] = useState<string>('');
     const { handleSubmit, register } = useForm<State>();
+
+    const [modalShow, setModalShow] = useState<boolean>(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -64,17 +70,14 @@ const Home: React.FC = () => {
         fetchData();
     }, []);
 
+    const showModal = () => {
+        setModalShow(!modalShow);
+    };
+
     const upload = async (value: React.ChangeEvent<HTMLInputElement>) => {
         if (value.target.files) {
-            if (value.target.files[0]) {
-                const reader = new FileReader();
-                reader.addEventListener('load', () => {
-                    setImage(reader.result);
-                });
-                reader.readAsDataURL(value.target.files[0]);
-            }
             const formData = new FormData();
-            formData.append('avt', value.target.files[0]);
+            formData.append('image', value.target.files[0]);
             formData.append('userId', userId);
             const data = await uploadImage(formData);
             if (data.url) {
@@ -88,6 +91,10 @@ const Home: React.FC = () => {
 
     const onFinish = async (value: State) => {
         const caption = value.caption;
+        if (!imageURL) {
+            showModal();
+            return;
+        }
         const data = {
             userId: userId,
             images: imageURL,
@@ -95,6 +102,7 @@ const Home: React.FC = () => {
         };
         const result = await upPost(data);
         openNotificationWithIcon('success', '', result.message);
+        showModal();
     };
     return (
         <div>
@@ -115,12 +123,14 @@ const Home: React.FC = () => {
                         <input
                             className={cls.create_post_input}
                             placeholder="Bạn đang nghĩ gì vậy?"
+                            onClick={showModal}
                         />
                     </div>
                     <Modal
                         title="Tạo bài viết"
-                        visible={true}
+                        visible={modalShow}
                         onOk={handleSubmit(onFinish)}
+                        onCancel={showModal}
                     >
                         <form encType="multipart/form-data">
                             <input
@@ -137,9 +147,24 @@ const Home: React.FC = () => {
                                 onChange={upload}
                                 ref={register}
                             />
-                            <label htmlFor="pic" style={picture}>
-                                <PictureIcon height={25} width={25} />
-                            </label>
+                            {!imageURL && (
+                                <label htmlFor="pic" style={picture}>
+                                    <PictureIcon height={25} width={25} />
+                                </label>
+                            )}
+
+                            {imageURL && (
+                                <div
+                                    style={{
+                                        backgroundImage: `url(${imageURL})`,
+                                        backgroundPosition: 'center',
+                                        backgroundSize: 'cover',
+                                        height: '300px',
+                                        width: '447px',
+                                        marginTop: '20px',
+                                    }}
+                                />
+                            )}
                         </form>
                     </Modal>
                     {posts &&
