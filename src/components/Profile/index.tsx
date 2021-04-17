@@ -20,7 +20,7 @@ const Profile: React.FC = () => {
     const { handleSubmit, register } = useForm<State>();
 
     const state = useSelector((state) => state.profile);
-    let avt = state.avt;
+    const avt = state.avt;
     const id = state.id;
 
     const dispatch = useDispatch();
@@ -49,7 +49,6 @@ const Profile: React.FC = () => {
     const uploadAvt = async (value: React.ChangeEvent<HTMLInputElement>) => {
         if (value.target.files) {
             if (value.target.files[0]) {
-                //setPicture(value.target.files[0]);
                 const reader = new FileReader();
                 reader.addEventListener('load', () => {
                     setImage(reader.result);

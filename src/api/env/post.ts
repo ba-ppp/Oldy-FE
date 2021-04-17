@@ -5,7 +5,7 @@ const ENVIRONMENT = {
 } as const;
 
 const HOST = {
-    DEVELOPMENT: 'https://oldybe.herokuapp.com',
+    DEVELOPMENT: 'http://localhost:8000',
     STAGING: 'https://oldybe.herokuapp.com',
     PRODUCTION: 'https://oldybe.herokuapp.com',
 } as const;
@@ -19,5 +19,11 @@ export default {
     },
     getLikePostPoint(): string {
         return `${this.HOST_URL}/api/post/like`;
+    },
+    getUpPostPoint(): string {
+        return `${this.HOST_URL}/api/post/upload`;
+    },
+    getUpImagePoint(): string {
+        return `${this.HOST_URL}/api/post/image`;
     },
 };
