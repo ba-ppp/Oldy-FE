@@ -5,7 +5,7 @@ const ENVIRONMENT = {
 } as const;
 
 const HOST = {
-    DEVELOPMENT: 'http://localhost:8000',
+    DEVELOPMENT: 'https://oldybe.herokuapp.com',
     STAGING: 'https://oldybe.herokuapp.com',
     PRODUCTION: 'https://oldybe.herokuapp.com',
 } as const;
