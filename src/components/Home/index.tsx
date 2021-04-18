@@ -171,7 +171,11 @@ const Home: React.FC = () => {
                         posts.map(function (post: ArrayPost, key: number) {
                             return (
                                 <Post
+                                    heightPost={
+                                        post.post.caption ? '820px' : '800px'
+                                    }
                                     postId={post.post._id}
+                                    caption={post.post.caption}
                                     avtHeader={post.user.avt}
                                     postImage={post.post.image}
                                     likeCount={

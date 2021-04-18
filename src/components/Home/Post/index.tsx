@@ -9,7 +9,9 @@ import { useSelector } from 'app/reducers/type';
 import likePost from 'api/data/post/likePost';
 
 type Props = {
+    heightPost: string;
     postId: string;
+    caption?: string;
     postImage?: string;
     avtHeader: string;
     userName: string;
@@ -48,7 +50,7 @@ const Post: React.FC<Props> = (props) => {
     };
 
     return (
-        <div className={cls.home_post}>
+        <div className={cls.home_post} style={{ height: props.heightPost }}>
             <header className={cls.home_post_header}>
                 <div
                     className={cls.header_avt}
@@ -61,6 +63,7 @@ const Post: React.FC<Props> = (props) => {
                 style={{ backgroundImage: `url(${postImage})` }}
             />
             <div className={cls.home_post_comment}>
+                <h3>{props.caption}</h3>
                 <div className={cls.home_post_comment_react}>
                     {!like && (
                         <Heart
@@ -119,6 +122,8 @@ const Post: React.FC<Props> = (props) => {
 };
 
 Post.propTypes = {
+    heightPost: PropTypes.string.isRequired,
+    caption: PropTypes.string,
     postImage: PropTypes.string,
     avtHeader: PropTypes.string.isRequired,
     userName: PropTypes.string.isRequired,
