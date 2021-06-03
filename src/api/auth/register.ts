@@ -61,6 +61,7 @@ const register = ({
                         email: dataResponse.email,
                         token: dataResponse.token,
                         avt: dataResponse.avt,
+                        id: dataResponse.id,
                     };
                     resolve(profile);
                 }

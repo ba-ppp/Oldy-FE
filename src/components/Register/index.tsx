@@ -97,7 +97,7 @@ const Register: React.FC = () => {
         if (result.error) {
             openNotificationWithIcon(
                 'error',
-                'Đăng nhập thất bại',
+                'Đăng kí thật bại',
                 result.error
             );
         } else {
