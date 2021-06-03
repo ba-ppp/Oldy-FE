@@ -95,11 +95,7 @@ const Register: React.FC = () => {
         const result = unwrapResult(actionResult);
 
         if (result.error) {
-            openNotificationWithIcon(
-                'error',
-                'Đăng kí thật bại',
-                result.error
-            );
+            openNotificationWithIcon('error', 'Đăng kí thật bại', result.error);
         } else {
             const action = addProfile(result);
             dispatch(action);
